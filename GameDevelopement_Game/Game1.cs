@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace GameDevelopement_Game
 {
@@ -8,9 +9,8 @@ namespace GameDevelopement_Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
-        private Texture2D _heroSpriteSheet;
-        private Rectangle _deelrectangle;
-        private int schuifop_X = 0;
+
+        Hero Hero;
 
         public Game1()
         {
@@ -24,16 +24,20 @@ namespace GameDevelopement_Game
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            _deelrectangle = new Rectangle(schuifop_X, 0, 84, 64);
-            base.Initialize();
+            base.Initialize();            
         }
 
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            InitializeGameObjects();
             // TODO: use this.Content to load your game content here
-            _heroSpriteSheet = Content.Load<Texture2D>("Fox_Sprite_Sheet_Running_4x");
+        }
+
+        private void InitializeGameObjects()
+        {
+            Hero = new Hero(Content.Load<Texture2D>("Fox_Sprite_Sheet_Running_4x"));
         }
 
         protected override void Update(GameTime gameTime)
@@ -41,7 +45,7 @@ namespace GameDevelopement_Game
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            Hero.Update();
 
             base.Update(gameTime);
         }
@@ -50,16 +54,10 @@ namespace GameDevelopement_Game
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
-            // TODO: Add your drawing code here
-            _spriteBatch.Draw(_heroSpriteSheet, new Vector2(0, 0),_deelrectangle ,Color.White);
-            _spriteBatch.End();
 
-            schuifop_X += 128;
-            if(schuifop_X > 888)
-            {
-                schuifop_X = 0;
-            }
-            _deelrectangle.X = schuifop_X;
+            Hero.Draw(_spriteBatch);
+                                    
+            _spriteBatch.End();
 
             base.Draw(gameTime);
         }
