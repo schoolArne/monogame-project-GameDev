@@ -8,5 +8,8 @@ namespace GameDevelopement_Game.interfaces
 {
     internal interface IGameObject
     {
+        void Update();
+
+        void Draw();
     }
 }
