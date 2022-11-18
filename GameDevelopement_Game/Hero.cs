@@ -32,9 +32,9 @@ namespace GameDevelopement_Game
             animatie.AddAnimationFrame(new AnimationFrame(new Rectangle(896, 0, 84, 64)));
         }
 
-        public void Update()
+        public void Update(GameTime gametime)
         {
-            animatie.Update();
+            animatie.Update(gametime);
         }
 
         public void Draw(SpriteBatch _spriteBatch)

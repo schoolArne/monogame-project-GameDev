@@ -15,8 +15,8 @@ namespace GameDevelopement_Game
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
-            //_graphics.PreferredBackBufferWidth = 1920;
-            //_graphics.PreferredBackBufferHeight = 1080;
+            _graphics.PreferredBackBufferWidth = 1920;
+            _graphics.PreferredBackBufferHeight = 1080;
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
@@ -45,7 +45,7 @@ namespace GameDevelopement_Game
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            Hero.Update();
+            Hero.Update(gameTime);
 
             base.Update(gameTime);
         }
