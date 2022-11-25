@@ -37,7 +37,7 @@ namespace GameDevelopement_Game
 
         private void InitializeGameObjects()
         {
-            Hero = new Hero(Content.Load<Texture2D>("Fox_Sprite_Sheet_Running_4x"));
+            Hero = new Hero(Content.Load<Texture2D>("Fox_Sprite_Sheet_Running_4x"), new Vector2(0, 100));
         }
 
         protected override void Update(GameTime gameTime)
