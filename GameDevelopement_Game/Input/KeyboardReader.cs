@@ -32,12 +32,13 @@ namespace GameDevelopement_Game.Input
             }
             if (state.IsKeyDown(Keys.Up))
             {
-                direction.Y -= 1;
+                direction.Y -= 2;
             }
             if (state.IsKeyDown(Keys.Down))
             {
                 direction.Y += 1;
             }
+            direction.Y += 1;
             return direction;
         }
 
