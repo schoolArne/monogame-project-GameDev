@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using GameDevelopement_Game.Input;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -37,7 +38,7 @@ namespace GameDevelopement_Game
 
         private void InitializeGameObjects()
         {
-            Hero = new Hero(Content.Load<Texture2D>("Fox_Sprite_Sheet_Running_4x"), new Vector2(0, 100));
+            Hero = new Hero(Content.Load<Texture2D>("Fox_Sprite_Sheet_Running_4x"),Content.Load<Texture2D>("Fox_Sprite_Sheet_Running_4x_reversed"), new Vector2(0, 100), new KeyboardReader(1));
         }
 
         protected override void Update(GameTime gameTime)

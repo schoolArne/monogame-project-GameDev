@@ -1,7 +1,9 @@
 ﻿using GameDevelopement_Game.Animation;
+using GameDevelopement_Game.Input;
 using GameDevelopement_Game.interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using SharpDX.Direct2D1;
 using SharpDX.MediaFoundation;
 using System;
@@ -17,15 +19,23 @@ namespace GameDevelopement_Game
     public class Hero:IGameObject
     {
         Texture2D heroTextureRunning;
+        Texture2D heroTextureRunningReversed;
         Animatie animatie;
 
-        private Vector2 snelheid = new Vector2(1, 1);
-        private Vector2 versnelling = new Vector2(0.1f, 0.1f);
+        private Vector2 snelheid;
+        private Vector2 versnelling;
         private Vector2 positie;
 
-        public Hero(Texture2D textureRunning, Vector2 Positie)
+        private IInputReader inputreader;
+
+        private Vector2 direction;
+
+        public Hero(Texture2D textureRunning,Texture2D textureRunningReversed, Vector2 Positie, IInputReader Inputreader)
         {
             heroTextureRunning = textureRunning;
+            heroTextureRunningReversed = textureRunningReversed;
+            inputreader = Inputreader;
+            #region animation
             animatie = new Animatie();
             animatie.AddAnimationFrame(new AnimationFrame(new Rectangle(0, 0, 84, 64)));
             animatie.AddAnimationFrame(new AnimationFrame(new Rectangle(128, 0, 84, 64)));
@@ -35,21 +45,31 @@ namespace GameDevelopement_Game
             animatie.AddAnimationFrame(new AnimationFrame(new Rectangle(640, 0, 84, 64)));
             animatie.AddAnimationFrame(new AnimationFrame(new Rectangle(768, 0, 84, 64)));
             animatie.AddAnimationFrame(new AnimationFrame(new Rectangle(896, 0, 84, 64)));
+            #endregion
             positie = Positie;
+            snelheid = new Vector2(10, 10);
+            versnelling = new Vector2(0.1f, 0.1f);
         }
 
         public void Update(GameTime gametime)
         {
+            direction = inputreader.ReadInput();
+            direction *= snelheid;
+            positie += direction;
             animatie.Update(gametime);
-            Move();
-            Debug.WriteLine($"positie: {positie}");
-            Debug.WriteLine($"snelheid: {snelheid}");
-            Debug.WriteLine($"versnelling: {versnelling}");
+            //Move();
         }
         
         public void Draw(SpriteBatch _spriteBatch)
         {
-            _spriteBatch.Draw(heroTextureRunning, positie, animatie.CurrentFrame.SourceRectangle, Color.White);
+            if(inputreader.lookDirection < 0)
+            {
+                _spriteBatch.Draw(heroTextureRunningReversed, positie, animatie.CurrentFrame.SourceRectangle, Color.White);
+            }
+            if(inputreader.lookDirection > 0)
+            {
+                _spriteBatch.Draw(heroTextureRunning, positie, animatie.CurrentFrame.SourceRectangle, Color.White);
+            }
         }
         private Vector2 Versnel(Vector2 v, float max)
         {
@@ -95,6 +115,17 @@ namespace GameDevelopement_Game
             {
                 snelheid.Y *= -1;
             }
+        }
+        private void MoveWithMouse()
+        {
+            MouseState state = Mouse.GetState();
+            Vector2 mouseVector = new Vector2(state.X, state.Y);
+
+            var richting = mouseVector - positie;
+            richting.Normalize();
+            var afTeLeggenAfstand = richting * snelheid;
+            positie += afTeLeggenAfstand;
+
         }
     }
 }
