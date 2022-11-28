@@ -56,6 +56,22 @@ namespace GameDevelopement_Game
             direction = inputreader.ReadInput();
             direction *= snelheid;
             positie += direction;
+            if(positie.X < 0)
+            {
+                positie.X = 0;
+            }
+            if(positie.Y < 0)
+            {
+                positie.Y = 0;
+            }
+            if(positie.X > 1920 - 84)
+            {
+                positie.X = 1920 - 84;
+            }
+            if(positie.Y > 1080 - 96)
+            {
+                positie.Y = 1080 - 96;
+            }
             animatie.Update(gametime);
             //Move();
         }
