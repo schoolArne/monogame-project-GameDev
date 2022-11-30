@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SharpDX.Direct2D1.Effects;
 using System;
 
 namespace GameDevelopement_Game
@@ -12,6 +13,7 @@ namespace GameDevelopement_Game
         private SpriteBatch _spriteBatch;
 
         Hero Hero;
+        Floor Vloer1;
 
         public Game1()
         {
@@ -39,6 +41,7 @@ namespace GameDevelopement_Game
         private void InitializeGameObjects()
         {
             Hero = new Hero(Content.Load<Texture2D>("Fox_Sprite_Sheet_Running_4x"),Content.Load<Texture2D>("Fox_Sprite_Sheet_Running_4x_reversed"), new Vector2(0, 100), new KeyboardReader(1));
+            Vloer1 = new Floor(Content.Load<Texture2D>("Green_full"), new Vector2(0, 500), 1920, 100);
         }
 
         protected override void Update(GameTime gameTime)
@@ -57,7 +60,8 @@ namespace GameDevelopement_Game
             _spriteBatch.Begin();
 
             Hero.Draw(_spriteBatch);
-                                    
+            Vloer1.Draw(_spriteBatch);
+
             _spriteBatch.End();
 
             base.Draw(gameTime);
