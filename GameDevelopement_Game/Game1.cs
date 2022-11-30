@@ -44,8 +44,8 @@ namespace GameDevelopement_Game
         {
             Hero = new Hero(Content.Load<Texture2D>("Fox_Sprite_Sheet_Running_4x"),Content.Load<Texture2D>("Fox_Sprite_Sheet_Running_4x_reversed"), new Vector2(0, 100), new KeyboardReader(1));
             Vloer1 = new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 250), 1680, 100);
-            Vloer2 = new Floor(Content.Load<Texture2D>("Green_full"), new Vector2(240, 500), 1680, 100);
-            Vloer3 = new Floor(Content.Load<Texture2D>("Green_full"), new Vector2(0, 750), 1680, 100);
+            Vloer2 = new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(240, 500), 1680, 100);
+            Vloer3 = new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 750), 1680, 100);
         }
 
         protected override void Update(GameTime gameTime)
