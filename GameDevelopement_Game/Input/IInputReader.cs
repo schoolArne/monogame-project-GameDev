@@ -10,6 +10,7 @@ namespace GameDevelopement_Game.Input
     public interface IInputReader
     {
         int lookDirection { get; set; }
+        bool isStandingStill { get; set; }
         Vector2 ReadInput();
 
     }

@@ -20,6 +20,10 @@ namespace GameDevelopement_Game
     {
         Texture2D heroTextureRunning;
         Texture2D heroTextureRunningReversed;
+
+        Texture2D heroTextureStandingStill;
+        Texture2D heroTextureStandingStillReversed;
+        private Rectangle standingStillSourceRectangle = new Rectangle(0, 0, 84, 64);
         Animatie animatie;
 
         private Vector2 snelheid;
@@ -30,10 +34,12 @@ namespace GameDevelopement_Game
 
         private Vector2 direction;
 
-        public Hero(Texture2D textureRunning,Texture2D textureRunningReversed, Vector2 Positie, IInputReader Inputreader)
+        public Hero(Texture2D textureRunning,Texture2D textureRunningReversed,Texture2D textureStandingStill,Texture2D textureStandingStillReversed , Vector2 Positie, IInputReader Inputreader)
         {
             heroTextureRunning = textureRunning;
             heroTextureRunningReversed = textureRunningReversed;
+            this.heroTextureStandingStill = textureStandingStill;
+            this.heroTextureStandingStillReversed = textureStandingStillReversed;
             inputreader = Inputreader;
             #region animation
             animatie = new Animatie();
@@ -78,14 +84,28 @@ namespace GameDevelopement_Game
         
         public void Draw(SpriteBatch _spriteBatch)
         {
-            if(inputreader.lookDirection < 0)
+            if(inputreader.isStandingStill == true)
             {
-                _spriteBatch.Draw(heroTextureRunningReversed, positie, animatie.CurrentFrame.SourceRectangle, Color.White);
+                if (inputreader.lookDirection < 0)
+                {
+                    _spriteBatch.Draw(heroTextureStandingStillReversed, positie, standingStillSourceRectangle, Color.White);
+                }
+                if(inputreader.lookDirection > 0)
+                {
+                    _spriteBatch.Draw(heroTextureStandingStill, positie, standingStillSourceRectangle, Color.White);
+                }
             }
-            if(inputreader.lookDirection > 0)
+            else
             {
-                _spriteBatch.Draw(heroTextureRunning, positie, animatie.CurrentFrame.SourceRectangle, Color.White);
-            }
+                if (inputreader.lookDirection < 0)
+                {
+                    _spriteBatch.Draw(heroTextureRunningReversed, positie, animatie.CurrentFrame.SourceRectangle, Color.White);
+                }
+                if (inputreader.lookDirection > 0)
+                {
+                    _spriteBatch.Draw(heroTextureRunning, positie, animatie.CurrentFrame.SourceRectangle, Color.White);
+                }
+            }            
         }
         private Vector2 Versnel(Vector2 v, float max)
         {
