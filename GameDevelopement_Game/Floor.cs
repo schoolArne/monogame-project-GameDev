@@ -17,6 +17,14 @@ namespace GameDevelopement_Game
         private int width;
         private int height;
         private Rectangle deelRectangle;
+
+        public Rectangle CollisionRectangle {
+            get
+            {
+                return new Rectangle((int)floorPositie.X, (int)floorPositie.Y, width, height);
+            }
+        }
+
         public Floor(Texture2D t, Vector2 p, int w, int h)
         {
             floorTexture = t;

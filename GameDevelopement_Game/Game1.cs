@@ -1,9 +1,11 @@
 ﻿using GameDevelopement_Game.Input;
+using GameDevelopement_Game.interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SharpDX.Direct2D1.Effects;
 using System;
+using System.Collections.Generic;
 
 namespace GameDevelopement_Game
 {
@@ -12,10 +14,10 @@ namespace GameDevelopement_Game
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
+        //hero
         Hero Hero;
-        Floor Vloer1;
-        Floor Vloer2;
-        Floor Vloer3;
+        //andere gameobjects
+        public List<IGameObject> GameObjectsList = new List<IGameObject>();
 
         public Game1()
         {
@@ -42,10 +44,10 @@ namespace GameDevelopement_Game
 
         private void InitializeGameObjects()
         {
-            Hero = new Hero(Content.Load<Texture2D>("Fox_Sprite_Sheet_Running_4x"),Content.Load<Texture2D>("Fox_Sprite_Sheet_Running_4x_reversed"), Content.Load<Texture2D>("Fox_Sprite_Sheet_Standing_Still_4x"), Content.Load<Texture2D>("Fox_Sprite_Sheet_Stinding_Still_4x_Reversed"), new Vector2(0, 100), new KeyboardReader(1, true));
-            Vloer1 = new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 250), 1680, 100);
-            Vloer2 = new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(240, 500), 1680, 100);
-            Vloer3 = new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 750), 1680, 100);
+            Hero = new Hero(Content.Load<Texture2D>("Fox_Sprite_Sheet_Running_4x"),Content.Load<Texture2D>("Fox_Sprite_Sheet_Running_4x_reversed"), Content.Load<Texture2D>("Fox_Sprite_Sheet_Standing_Still_4x"), Content.Load<Texture2D>("Fox_Sprite_Sheet_Stinding_Still_4x_Reversed"), Content.Load<Texture2D>("Green_full"), new Vector2(0, 0), new KeyboardReader(1, true), GameObjectsList);
+            GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 250), 1680, 100));
+            GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(240, 500), 1680, 100));
+            GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 750), 1680, 100));
         }
 
         protected override void Update(GameTime gameTime)
@@ -64,9 +66,10 @@ namespace GameDevelopement_Game
             _spriteBatch.Begin();
 
             Hero.Draw(_spriteBatch);
-            Vloer1.Draw(_spriteBatch);
-            Vloer2.Draw(_spriteBatch);
-            Vloer3.Draw(_spriteBatch);
+            foreach(var obj in GameObjectsList)
+            {
+                obj.Draw(_spriteBatch);
+            }
 
             _spriteBatch.End();
 

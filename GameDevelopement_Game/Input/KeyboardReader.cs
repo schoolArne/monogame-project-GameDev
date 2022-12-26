@@ -49,7 +49,7 @@ namespace GameDevelopement_Game.Input
             {
                 isStandingStill = true;
             }
-            direction.Y += 1;
+            //direction.Y += 1;
             return direction;
         }
 

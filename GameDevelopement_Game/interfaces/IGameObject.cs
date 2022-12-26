@@ -8,8 +8,9 @@ using System.Threading.Tasks;
 
 namespace GameDevelopement_Game.interfaces
 {
-    internal interface IGameObject
+    public interface IGameObject
     {
+        Rectangle CollisionRectangle { get; }
         void Update(GameTime gametime);
 
         void Draw(SpriteBatch _spriteBatch);

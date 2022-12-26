@@ -1,10 +1,12 @@
 ﻿using GameDevelopement_Game.Animation;
 using GameDevelopement_Game.Input;
 using GameDevelopement_Game.interfaces;
+using GameDevelopement_Game.Movement;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SharpDX.Direct2D1;
+using SharpDX.Direct3D9;
 using SharpDX.MediaFoundation;
 using System;
 using System.Collections.Generic;
@@ -18,28 +20,72 @@ namespace GameDevelopement_Game
 {
     public class Hero:IGameObject
     {
+        //input
+        private IInputReader inputreader;
+
+        //animaties
         Texture2D heroTextureRunning;
         Texture2D heroTextureRunningReversed;
-
         Texture2D heroTextureStandingStill;
         Texture2D heroTextureStandingStillReversed;
+        Texture2D collisiontest;
         private Rectangle standingStillSourceRectangle = new Rectangle(0, 0, 84, 64);
         Animatie animatie;
 
+        //hero movement
         private Vector2 snelheid;
+        public Vector2 Snelheid
+        {
+            get { return snelheid; }
+            set { snelheid = value; }
+        }
+
         private Vector2 versnelling;
+        public Vector2 Versnelling
+        {
+            get { return versnelling; }
+            set { versnelling = value; }
+        }
         private Vector2 positie;
-
-        private IInputReader inputreader;
-
+        public Vector2 Positie
+        {
+            get { return positie; }
+            set { positie = value; }
+        }
+        public void ChangePosX(int x)
+        {
+            positie.X = x;
+        }
+        public void ChangePosY(int y)
+        {
+            positie.Y = y;
+        }
         private Vector2 direction;
+        public Vector2 Direction
+        {
+            get { return direction; }
+            set { direction = value; }   
+        }
+        private MovementManager heroMovementManager;
 
-        public Hero(Texture2D textureRunning,Texture2D textureRunningReversed,Texture2D textureStandingStill,Texture2D textureStandingStillReversed , Vector2 Positie, IInputReader Inputreader)
+        //collision
+        private List<IGameObject> otherObjList = new List<IGameObject>();
+
+        public Rectangle CollisionRectangle
+        {
+            get
+            {
+                return new Rectangle((int)Positie.X, (int)Positie.Y, 84, 64);
+            }
+        }
+
+        public Hero(Texture2D textureRunning,Texture2D textureRunningReversed,Texture2D textureStandingStill,Texture2D textureStandingStillReversed , Texture2D colltest, Vector2 Positie, IInputReader Inputreader, List<IGameObject> otherObj)
         {
             heroTextureRunning = textureRunning;
             heroTextureRunningReversed = textureRunningReversed;
             this.heroTextureStandingStill = textureStandingStill;
             this.heroTextureStandingStillReversed = textureStandingStillReversed;
+            this.collisiontest = colltest;
             inputreader = Inputreader;
             #region animation
             animatie = new Animatie();
@@ -55,31 +101,14 @@ namespace GameDevelopement_Game
             positie = Positie;
             snelheid = new Vector2(10, 10);
             versnelling = new Vector2(0.1f, 0.1f);
+            otherObjList = otherObj;
+            heroMovementManager = new MovementManager(inputreader);
         }
 
         public void Update(GameTime gametime)
         {
-            direction = inputreader.ReadInput();
-            direction *= snelheid;
-            positie += direction;
-            if(positie.X < 0)
-            {
-                positie.X = 0;
-            }
-            if(positie.Y < 0)
-            {
-                positie.Y = 0;
-            }
-            if(positie.X > 1920 - 84)
-            {
-                positie.X = 1920 - 84;
-            }
-            if(positie.Y > 1080 - 96)
-            {
-                positie.Y = 1080 - 96;
-            }
+            heroMovementManager.Move(this, 84, 64, otherObjList);
             animatie.Update(gametime);
-            //Move();
         }
         
         public void Draw(SpriteBatch _spriteBatch)
@@ -105,7 +134,7 @@ namespace GameDevelopement_Game
                 {
                     _spriteBatch.Draw(heroTextureRunning, positie, animatie.CurrentFrame.SourceRectangle, Color.White);
                 }
-            }            
+            }
         }
         private Vector2 Versnel(Vector2 v, float max)
         {
