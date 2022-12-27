@@ -11,9 +11,12 @@ using SharpDX.MediaFoundation;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Color = Microsoft.Xna.Framework.Color;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
 using SpriteBatch = Microsoft.Xna.Framework.Graphics.SpriteBatch;
 
 namespace GameDevelopement_Game
@@ -28,7 +31,7 @@ namespace GameDevelopement_Game
         Texture2D heroTextureRunningReversed;
         Texture2D heroTextureStandingStill;
         Texture2D heroTextureStandingStillReversed;
-        Texture2D collisiontest;
+        Texture2D healthBar;
         private Rectangle standingStillSourceRectangle = new Rectangle(0, 0, 84, 64);
         Animatie animatie;
 
@@ -68,6 +71,16 @@ namespace GameDevelopement_Game
         }
         private MovementManager heroMovementManager;
 
+        //health
+        private int health;
+        public int Health
+        {
+            get { return health; }
+            set { health = value; }
+        }
+        private Vector2 healthbarPos = new Vector2(0, 0);
+        private Rectangle healthbarSize;
+
         //collision
         private List<IGameObject> otherObjList = new List<IGameObject>();
 
@@ -79,13 +92,13 @@ namespace GameDevelopement_Game
             }
         }
 
-        public Hero(Texture2D textureRunning,Texture2D textureRunningReversed,Texture2D textureStandingStill,Texture2D textureStandingStillReversed , Texture2D colltest, Vector2 Positie, IInputReader Inputreader, List<IGameObject> otherObj)
+        public Hero(Texture2D textureRunning,Texture2D textureRunningReversed,Texture2D textureStandingStill,Texture2D textureStandingStillReversed , Texture2D healthbar, Vector2 Positie, IInputReader Inputreader, List<IGameObject> otherObj)
         {
             heroTextureRunning = textureRunning;
             heroTextureRunningReversed = textureRunningReversed;
             this.heroTextureStandingStill = textureStandingStill;
             this.heroTextureStandingStillReversed = textureStandingStillReversed;
-            this.collisiontest = colltest;
+            this.healthBar = healthbar;
             inputreader = Inputreader;
             #region animation
             animatie = new Animatie();
@@ -103,6 +116,8 @@ namespace GameDevelopement_Game
             versnelling = new Vector2(0.1f, 0.1f);
             otherObjList = otherObj;
             heroMovementManager = new MovementManager(inputreader);
+            health = 10;
+            healthbarSize = new Rectangle(0, 0, health * 100, 20);
         }
 
         public void Update(GameTime gametime)
@@ -113,6 +128,7 @@ namespace GameDevelopement_Game
         
         public void Draw(SpriteBatch _spriteBatch)
         {
+            //render hero
             if(inputreader.isStandingStill == true)
             {
                 if (inputreader.lookDirection < 0)
@@ -135,6 +151,8 @@ namespace GameDevelopement_Game
                     _spriteBatch.Draw(heroTextureRunning, positie, animatie.CurrentFrame.SourceRectangle, Color.White);
                 }
             }
+            //render hero health
+            _spriteBatch.Draw(healthBar, healthbarPos, healthbarSize, Color.White);
         }
         private Vector2 Versnel(Vector2 v, float max)
         {

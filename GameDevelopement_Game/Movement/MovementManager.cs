@@ -23,10 +23,13 @@ namespace GameDevelopement_Game.Movement
         {
             hero.Direction = inputReader.ReadInput();
             hero.Direction *= hero.Snelheid;
-            Rectangle heroCollisionRectangle;
             toekomstigePositie = hero.Positie + hero.Direction;
-            heroCollisionRectangle = new Rectangle((int)toekomstigePositie.X, (int)toekomstigePositie.Y, heroWidth, heroHeight - 4);
 
+
+
+            #region collision detection
+            Rectangle heroCollisionRectangle;
+            heroCollisionRectangle = new Rectangle((int)toekomstigePositie.X, (int)toekomstigePositie.Y, heroWidth, heroHeight - 4);
             //check for X value
             bool collidesX = false;
             foreach (IGameObject obj in objects)
@@ -65,6 +68,7 @@ namespace GameDevelopement_Game.Movement
             {
                 hero.ChangePosY(1080 - 96);
             }
+            #endregion
         }
     }
 }

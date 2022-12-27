@@ -14,10 +14,15 @@ namespace GameDevelopement_Game.Input
 
         public bool isStandingStill { get; set; }
 
+        public bool isJumping { get; set; }
+        public int jumpTimer { get; set; }
+
         public KeyboardReader(int LookDirection, bool isStandingStill)
         {
             this.lookDirection = LookDirection;
             this.isStandingStill = isStandingStill;
+            isJumping = false;
+            jumpTimer = 0;
         }
         public Vector2 ReadInput()
         {
@@ -35,23 +40,25 @@ namespace GameDevelopement_Game.Input
                 direction.X += 1;
                 this.lookDirection = 1;
             }
-            if (state.IsKeyDown(Keys.Up))
+            if (state.IsKeyDown(Keys.Space) /*&& isJumping == false*/)
             {
                 isStandingStill = false;
                 direction.Y -= 2;
             }
+            
             if (state.IsKeyDown(Keys.Down))
             {
                 isStandingStill = false;
                 direction.Y += 1;
             }
-            if(state.IsKeyUp(Keys.Left) && state.IsKeyUp(Keys.Right) && state.IsKeyUp(Keys.Up) && state.IsKeyUp(Keys.Down))
+            
+            if (state.IsKeyUp(Keys.Left) && state.IsKeyUp(Keys.Right) && state.IsKeyUp(Keys.Up) && state.IsKeyUp(Keys.Down))
             {
                 isStandingStill = true;
             }
-            //direction.Y += 1;
             return direction;
         }
+
 
     }
 }

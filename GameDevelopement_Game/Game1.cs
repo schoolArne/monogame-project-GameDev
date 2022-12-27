@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SharpDX.Direct2D1.Effects;
+using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 
@@ -13,6 +14,7 @@ namespace GameDevelopement_Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private Texture2D background;
 
         //hero
         Hero Hero;
@@ -39,6 +41,7 @@ namespace GameDevelopement_Game
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
             InitializeGameObjects();
+            background = Content.Load<Texture2D>("background");
             // TODO: use this.Content to load your game content here
         }
 
@@ -65,6 +68,7 @@ namespace GameDevelopement_Game
             GraphicsDevice.Clear(Color.CornflowerBlue);
             _spriteBatch.Begin();
 
+            _spriteBatch.Draw(background, new Vector2(0, 0), Color.White);
             Hero.Draw(_spriteBatch);
             foreach(var obj in GameObjectsList)
             {
