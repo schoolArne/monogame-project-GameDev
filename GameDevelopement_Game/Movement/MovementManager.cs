@@ -15,19 +15,27 @@ namespace GameDevelopement_Game.Movement
     {
         private IInputReader inputReader;
         private Vector2 toekomstigePositie;
+        private int jumpTimer;
+        private int invincibilityTimer;
         public MovementManager(IInputReader ireader)
         {
             inputReader = ireader;
+            jumpTimer = 0;
+            invincibilityTimer = 50;
         }
         public void Move(Hero hero,int heroWidth, int heroHeight, List<IGameObject> objects)
         {
             hero.Direction = inputReader.ReadInput();
             hero.Direction *= hero.Snelheid;
             toekomstigePositie = hero.Positie + hero.Direction;
-
-
+            
+            if (inputReader.triesToJump)
+            {
+                
+            }
 
             #region collision detection
+            bool hashit = false;
             Rectangle heroCollisionRectangle;
             heroCollisionRectangle = new Rectangle((int)toekomstigePositie.X, (int)toekomstigePositie.Y, heroWidth, heroHeight - 4);
             //check for X value
@@ -35,10 +43,20 @@ namespace GameDevelopement_Game.Movement
             foreach (IGameObject obj in objects)
             {
                 if (heroCollisionRectangle.Intersects(obj.CollisionRectangle)){
-                    collidesX = true;
+                    if(obj.isEnemy == true && invincibilityTimer > 50)
+                    {
+                        hashit = true;
+                        hero.Health -= 1;
+                        invincibilityTimer = 0;
+                    }
+                    else
+                    {
+                        collidesX = true;
+
+                    }
                 }
             }
-            if (!collidesX) { hero.ChangePosX((int)toekomstigePositie.X); }
+            if (!collidesX) { hero.ChangePosX(toekomstigePositie.X); }
 
             //check for Y value
             bool collidesY = false;
@@ -46,10 +64,25 @@ namespace GameDevelopement_Game.Movement
             {
                 if (heroCollisionRectangle.Intersects(obj.CollisionRectangle))
                 {
-                    collidesY = true;
+                    if(obj.isEnemy == true && invincibilityTimer > 50)
+                    {
+                        if(hashit == false)
+                        {
+                            hero.Health -= 1;
+                            invincibilityTimer = 0;
+                        }
+                    }
+                    else
+                    {
+                        collidesY = true;
+                    }
                 }
             }
-            if (!collidesX) { hero.ChangePosY((int)toekomstigePositie.Y); }
+            if (!collidesX) { hero.ChangePosY(toekomstigePositie.Y); }
+            hashit = false;
+            invincibilityTimer++;
+
+
 
             //check for screen border
             if (hero.Positie.X < 0)
@@ -69,6 +102,10 @@ namespace GameDevelopement_Game.Movement
                 hero.ChangePosY(1080 - 96);
             }
             #endregion
+            if (hero.Health == 0)
+            {
+                hero.isdDead = true;
+            }
         }
     }
 }

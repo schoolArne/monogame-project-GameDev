@@ -25,6 +25,18 @@
 /processorParam:TextureFormat=Color
 /build:background.png
 
+#begin enemy_1.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:enemy_1.png
+
 #begin Floor_Texture.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -85,7 +97,7 @@
 /processorParam:TextureFormat=Color
 /build:Fox_Sprite_Sheet_Stinding_Still_4x_Reversed.png
 
-#begin Green_full.png
+#begin game_over.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -95,5 +107,17 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Green_full.png
+/build:game_over.png
+
+#begin Red_full.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Red_full.png
 

@@ -12,12 +12,12 @@ namespace GameDevelopement_Game
 {
     internal class Floor:IGameObject
     {
+        public bool isEnemy { get; } = false;
         private Texture2D floorTexture;
         private Vector2 floorPositie;
         private int width;
         private int height;
         private Rectangle deelRectangle;
-
         public Rectangle CollisionRectangle {
             get
             {

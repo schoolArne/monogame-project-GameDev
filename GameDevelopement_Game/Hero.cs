@@ -11,6 +11,7 @@ using SharpDX.MediaFoundation;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.DirectoryServices.ActiveDirectory;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,8 @@ namespace GameDevelopement_Game
 {
     public class Hero:IGameObject
     {
+        public bool isEnemy { get; } = false;
+        public bool isdDead { get; set; } = false;
         //input
         private IInputReader inputreader;
 
@@ -55,11 +58,11 @@ namespace GameDevelopement_Game
             get { return positie; }
             set { positie = value; }
         }
-        public void ChangePosX(int x)
+        public void ChangePosX(float x)
         {
             positie.X = x;
         }
-        public void ChangePosY(int y)
+        public void ChangePosY(float y)
         {
             positie.Y = y;
         }
@@ -68,6 +71,14 @@ namespace GameDevelopement_Game
         {
             get { return direction; }
             set { direction = value; }   
+        }
+        public void ChangeDirectionX(float x)
+        {
+            direction.X = x;
+        }
+        public void ChangeDirectionY(float y)
+        {
+            direction.Y = y;
         }
         private MovementManager heroMovementManager;
 
@@ -124,6 +135,10 @@ namespace GameDevelopement_Game
         {
             heroMovementManager.Move(this, 84, 64, otherObjList);
             animatie.Update(gametime);
+            if (this.health == 0)
+            {
+                
+            }
         }
         
         public void Draw(SpriteBatch _spriteBatch)
@@ -152,6 +167,7 @@ namespace GameDevelopement_Game
                 }
             }
             //render hero health
+            healthbarSize = new Rectangle(0, 0, health * 100, 20);
             _spriteBatch.Draw(healthBar, healthbarPos, healthbarSize, Color.White);
         }
         private Vector2 Versnel(Vector2 v, float max)

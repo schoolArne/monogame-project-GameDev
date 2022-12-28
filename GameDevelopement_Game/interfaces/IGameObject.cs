@@ -10,7 +10,8 @@ namespace GameDevelopement_Game.interfaces
 {
     public interface IGameObject
     {
-        Rectangle CollisionRectangle { get; }
+        public bool isEnemy { get; }
+        public Rectangle CollisionRectangle { get; }
         void Update(GameTime gametime);
 
         void Draw(SpriteBatch _spriteBatch);

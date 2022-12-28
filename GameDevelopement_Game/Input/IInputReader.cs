@@ -11,6 +11,7 @@ namespace GameDevelopement_Game.Input
     {
         int lookDirection { get; set; }
         bool isStandingStill { get; set; }
+        public bool triesToJump { get; set; }
         Vector2 ReadInput();
 
     }

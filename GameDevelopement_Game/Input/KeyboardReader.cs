@@ -14,15 +14,13 @@ namespace GameDevelopement_Game.Input
 
         public bool isStandingStill { get; set; }
 
-        public bool isJumping { get; set; }
-        public int jumpTimer { get; set; }
+        public bool triesToJump { get; set; }
 
-        public KeyboardReader(int LookDirection, bool isStandingStill)
+        public KeyboardReader(int LookDirection, bool isStandingStill, bool Jump)
         {
             this.lookDirection = LookDirection;
             this.isStandingStill = isStandingStill;
-            isJumping = false;
-            jumpTimer = 0;
+            triesToJump = Jump;
         }
         public Vector2 ReadInput()
         {
@@ -33,26 +31,35 @@ namespace GameDevelopement_Game.Input
                 isStandingStill = false;
                 direction.X -= 1;
                 this.lookDirection = -1;
+                //
+                return direction;
             }
             if (state.IsKeyDown(Keys.Right))
             {
                 isStandingStill = false;
                 direction.X += 1;
                 this.lookDirection = 1;
+                //
+                return direction;
             }
-            if (state.IsKeyDown(Keys.Space) /*&& isJumping == false*/)
+            if (state.IsKeyDown(Keys.Space))
             {
-                isStandingStill = false;
-                direction.Y -= 2;
+                triesToJump = true;
             }
-            
-            if (state.IsKeyDown(Keys.Down))
+            if (state.IsKeyDown(Keys.Up))
+            {
+                direction.Y -= 1;
+                //
+                return direction;
+            }
+            if (/*state.IsKeyDown(Keys.Down)*/true)
             {
                 isStandingStill = false;
                 direction.Y += 1;
+                //
+                return direction;
             }
-            
-            if (state.IsKeyUp(Keys.Left) && state.IsKeyUp(Keys.Right) && state.IsKeyUp(Keys.Up) && state.IsKeyUp(Keys.Down))
+            if (state.IsKeyUp(Keys.Left) && state.IsKeyUp(Keys.Right) && state.IsKeyUp(Keys.Space) && state.IsKeyUp(Keys.Down))
             {
                 isStandingStill = true;
             }
