@@ -1,4 +1,5 @@
 ﻿using GameDevelopement_Game.Animation;
+using GameDevelopement_Game.enums;
 using GameDevelopement_Game.Input;
 using GameDevelopement_Game.interfaces;
 using GameDevelopement_Game.Movement;
@@ -24,8 +25,13 @@ namespace GameDevelopement_Game
 {
     public class Hero:IGameObject
     {
+        //identifiers
         public bool isEnemy { get; } = false;
+        public bool isFloor { get; } = false;
         public bool isdDead { get; set; } = false;
+        public bool isGate { get; } = false;
+        public int lvl { get; set; }
+        public bool levelCompleted { get; set; }
         //input
         private IInputReader inputreader;
 
@@ -102,8 +108,19 @@ namespace GameDevelopement_Game
                 return new Rectangle((int)Positie.X, (int)Positie.Y, 84, 64);
             }
         }
-
-        public Hero(Texture2D textureRunning,Texture2D textureRunningReversed,Texture2D textureStandingStill,Texture2D textureStandingStillReversed , Texture2D healthbar, Vector2 Positie, IInputReader Inputreader, List<IGameObject> otherObj)
+        private GameState.CurrentGameState gameState;
+        public GameState.CurrentGameState _GameState
+        {
+            get
+            {
+                return gameState;
+            }
+            set
+            {
+                gameState = value;
+            }
+        }
+        public Hero(Texture2D textureRunning,Texture2D textureRunningReversed,Texture2D textureStandingStill,Texture2D textureStandingStillReversed , Texture2D healthbar, Vector2 Positie, IInputReader Inputreader, List<IGameObject> otherObj,GameState.CurrentGameState g, int _lvl)
         {
             heroTextureRunning = textureRunning;
             heroTextureRunningReversed = textureRunningReversed;
@@ -129,6 +146,9 @@ namespace GameDevelopement_Game
             heroMovementManager = new MovementManager(inputreader);
             health = 10;
             healthbarSize = new Rectangle(0, 0, health * 100, 20);
+            lvl = _lvl;
+            levelCompleted = false;
+            gameState = g;
         }
 
         public void Update(GameTime gametime)

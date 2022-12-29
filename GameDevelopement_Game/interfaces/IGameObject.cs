@@ -11,6 +11,9 @@ namespace GameDevelopement_Game.interfaces
     public interface IGameObject
     {
         public bool isEnemy { get; }
+        public bool isFloor { get; }
+        public bool isGate { get; }
+        public int lvl { get; set; }
         public Rectangle CollisionRectangle { get; }
         void Update(GameTime gametime);
 

@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace GameDevelopement_Game.enums
 {
-    public abstract class GameState
+    public static class GameState
     {
-        enum CurrentGameState
+        public enum CurrentGameState
         {
-            main_menu,
-            level_1,
-            level_2,
-            gameover
+            main_menu = 0,
+            level_1 = 1,
+            level_2 = 2,
+            gameover = 3,
+            finished = 4
         }
     }
 }

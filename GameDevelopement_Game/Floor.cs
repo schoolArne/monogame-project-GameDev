@@ -10,9 +10,12 @@ using System.Threading.Tasks;
 
 namespace GameDevelopement_Game
 {
-    internal class Floor:IGameObject
+    internal class Floor : IGameObject
     {
         public bool isEnemy { get; } = false;
+        public bool isFloor { get; } = true;
+        public bool isGate { get; } = false;
+        public int lvl { get; set; }
         private Texture2D floorTexture;
         private Vector2 floorPositie;
         private int width;
@@ -25,17 +28,18 @@ namespace GameDevelopement_Game
             }
         }
 
-        public Floor(Texture2D t, Vector2 p, int w, int h)
+        public Floor(Texture2D t, Vector2 p, int w, int h, int _lvl)
         {
             floorTexture = t;
             floorPositie = p;
             width = w;
             height = h;
             deelRectangle = new Rectangle(0, 0, width, height);
+            lvl = _lvl;
         }
         public void Update(GameTime gametime)
         {
-
+            //
         }
         public void Draw(SpriteBatch _spriteBatch)
         {

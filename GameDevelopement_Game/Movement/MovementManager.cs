@@ -42,19 +42,27 @@ namespace GameDevelopement_Game.Movement
             bool collidesX = false;
             foreach (IGameObject obj in objects)
             {
-                if (heroCollisionRectangle.Intersects(obj.CollisionRectangle)){
-                    if(obj.isEnemy == true && invincibilityTimer > 50)
+                if(obj.lvl == (int)hero._GameState)
+                {
+                    if (heroCollisionRectangle.Intersects(obj.CollisionRectangle))
                     {
-                        hashit = true;
-                        hero.Health -= 1;
-                        invincibilityTimer = 0;
-                    }
-                    else
-                    {
-                        collidesX = true;
+                        if (obj.isEnemy == true && invincibilityTimer > 50)
+                        {
+                            hashit = true;
+                            hero.Health -= 1;
+                            invincibilityTimer = 0;
+                        }
+                        if (obj.isGate == true)
+                        {
+                            hero.levelCompleted = true;
+                        }
+                        else
+                        {
+                            collidesX = true;
 
+                        }
                     }
-                }
+                }                
             }
             if (!collidesX) { hero.ChangePosX(toekomstigePositie.X); }
 
@@ -62,21 +70,24 @@ namespace GameDevelopement_Game.Movement
             bool collidesY = false;
             foreach (IGameObject obj in objects)
             {
-                if (heroCollisionRectangle.Intersects(obj.CollisionRectangle))
+                if(obj.lvl == (int)hero._GameState)
                 {
-                    if(obj.isEnemy == true && invincibilityTimer > 50)
+                    if (heroCollisionRectangle.Intersects(obj.CollisionRectangle))
                     {
-                        if(hashit == false)
+                        if (obj.isEnemy == true && invincibilityTimer > 50)
                         {
-                            hero.Health -= 1;
-                            invincibilityTimer = 0;
+                            if (hashit == false)
+                            {
+                                hero.Health -= 1;
+                                invincibilityTimer = 0;
+                            }
+                        }
+                        else
+                        {
+                            collidesY = true;
                         }
                     }
-                    else
-                    {
-                        collidesY = true;
-                    }
-                }
+                }                
             }
             if (!collidesX) { hero.ChangePosY(toekomstigePositie.Y); }
             hashit = false;

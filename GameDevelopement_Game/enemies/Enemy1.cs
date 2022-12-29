@@ -18,7 +18,10 @@ namespace GameDevelopement_Game.enemies
         private Animatie animatie;
         public bool isEnemy { get; } = true;
         public bool isDead { get; set; } = false;
-        public Enemy1(Texture2D t, Vector2 p)
+        public bool isFloor { get; } = false;
+        public bool isGate { get; } = false;
+        public int lvl { get; set; }
+        public Enemy1(Texture2D t, Vector2 p, int _lvl)
         {
             enemyTexture = t;
             positie = p;
@@ -30,6 +33,7 @@ namespace GameDevelopement_Game.enemies
             animatie.AddAnimationFrame(new AnimationFrame(new Rectangle(216, 0, 60, 63)));
             animatie.AddAnimationFrame(new AnimationFrame(new Rectangle(288, 0, 60, 63)));
             #endregion
+            lvl = _lvl;
         }
 
         public Rectangle CollisionRectangle
