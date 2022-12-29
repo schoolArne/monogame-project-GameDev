@@ -98,6 +98,10 @@ namespace GameDevelopement_Game
                     }                    
                 }
             }
+            if(Hero.isdDead == true && gameState == GameState.CurrentGameState.level_1)
+            {
+                gameState = GameState.CurrentGameState.gameover;
+            }
             if(Hero.levelCompleted == true && gameState == GameState.CurrentGameState.level_1)
             {
                 Hero.isdDead = false;
