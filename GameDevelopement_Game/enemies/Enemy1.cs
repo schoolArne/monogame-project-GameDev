@@ -17,9 +17,10 @@ namespace GameDevelopement_Game.enemies
         private Vector2 positie;
         private Animatie animatie;
         public bool isEnemy { get; } = true;
-        public bool isDead { get; set; } = false;
+        public bool isdDead { get; set; } = false;
         public bool isFloor { get; } = false;
         public bool isGate { get; } = false;
+        public bool isCoin { get; } = false;
         public int lvl { get; set; }
         public Enemy1(Texture2D t, Vector2 p, int _lvl)
         {

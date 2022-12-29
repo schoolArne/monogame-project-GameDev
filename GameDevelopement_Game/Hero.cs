@@ -30,6 +30,7 @@ namespace GameDevelopement_Game
         public bool isFloor { get; } = false;
         public bool isdDead { get; set; } = false;
         public bool isGate { get; } = false;
+        public bool isCoin { get; } = false;
         public int lvl { get; set; }
         public bool levelCompleted { get; set; }
         //input
@@ -41,6 +42,7 @@ namespace GameDevelopement_Game
         Texture2D heroTextureStandingStill;
         Texture2D heroTextureStandingStillReversed;
         Texture2D healthBar;
+        Texture2D coinBar;
         private Rectangle standingStillSourceRectangle = new Rectangle(0, 0, 84, 64);
         Animatie animatie;
 
@@ -98,6 +100,11 @@ namespace GameDevelopement_Game
         private Vector2 healthbarPos = new Vector2(0, 0);
         private Rectangle healthbarSize;
 
+        //coins
+        public int coinCount { get; set; }
+        private Vector2 coinbarPos = new Vector2(1000, 0);
+        private Rectangle coinbarSize;
+
         //collision
         private List<IGameObject> otherObjList = new List<IGameObject>();
 
@@ -120,13 +127,14 @@ namespace GameDevelopement_Game
                 gameState = value;
             }
         }
-        public Hero(Texture2D textureRunning,Texture2D textureRunningReversed,Texture2D textureStandingStill,Texture2D textureStandingStillReversed , Texture2D healthbar, Vector2 Positie, IInputReader Inputreader, List<IGameObject> otherObj,GameState.CurrentGameState g, int _lvl)
+        public Hero(Texture2D textureRunning,Texture2D textureRunningReversed,Texture2D textureStandingStill,Texture2D textureStandingStillReversed , Texture2D healthbar, Texture2D coins, Vector2 Positie, IInputReader Inputreader, List<IGameObject> otherObj,GameState.CurrentGameState g, int _lvl)
         {
             heroTextureRunning = textureRunning;
             heroTextureRunningReversed = textureRunningReversed;
             this.heroTextureStandingStill = textureStandingStill;
             this.heroTextureStandingStillReversed = textureStandingStillReversed;
             this.healthBar = healthbar;
+            this.coinBar = coins;
             inputreader = Inputreader;
             #region animation
             animatie = new Animatie();
@@ -149,16 +157,14 @@ namespace GameDevelopement_Game
             lvl = _lvl;
             levelCompleted = false;
             gameState = g;
+            coinCount = 0;
+            coinbarSize = new Rectangle(0, 0, coinCount * 100, 20);
         }
 
         public void Update(GameTime gametime)
         {
             heroMovementManager.Move(this, 84, 64, otherObjList);
             animatie.Update(gametime);
-            if (this.health == 0)
-            {
-                
-            }
         }
         
         public void Draw(SpriteBatch _spriteBatch)
@@ -189,6 +195,9 @@ namespace GameDevelopement_Game
             //render hero health
             healthbarSize = new Rectangle(0, 0, health * 100, 20);
             _spriteBatch.Draw(healthBar, healthbarPos, healthbarSize, Color.White);
+            //render coin count
+            coinbarSize = new Rectangle(0, 0, coinCount * 100, 20);
+            _spriteBatch.Draw(coinBar, coinbarPos, coinbarSize, Color.White);
         }
         private Vector2 Versnel(Vector2 v, float max)
         {

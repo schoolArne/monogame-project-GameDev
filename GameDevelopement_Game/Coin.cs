@@ -1,6 +1,7 @@
 ﻿using GameDevelopement_Game.interfaces;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,37 +10,39 @@ using System.Threading.Tasks;
 
 namespace GameDevelopement_Game
 {
-    internal class Gate : IGameObject
+    internal class Coin : IGameObject
     {
         public bool isEnemy { get; } = false;
         public bool isFloor { get; } = false;
-        public bool isGate { get; } = true;
-        public bool isCoin { get; } = false;
+        public bool isGate { get; } = false;
+        public bool isCoin { get; } = true;
         public bool isdDead { get; set; } = false;
         public int lvl { get; set; }
-        private Vector2 Positie;
-        private Texture2D gateTexture;
-        public Gate(Texture2D t, Vector2 p, int l)
-        {
-            gateTexture = t;
-            Positie = p;
-            lvl = l;
-        }
+        private Texture2D coinTexture;
+        private Vector2 coinPositie;
         public Rectangle CollisionRectangle
         {
             get
             {
-                return new Rectangle((int)Positie.X, (int)Positie.Y, 84, 64);
+                return new Rectangle((int)coinPositie.X, (int)coinPositie.Y, 30, 30);
             }
+        }
+        public Coin(Texture2D t, Vector2 p, int _lvl)
+        {
+            coinTexture = t;
+            coinPositie = p;
+            lvl = _lvl;
         }
         public void Update(GameTime gametime)
         {
-            return;
+            //
         }
-
         public void Draw(SpriteBatch _spriteBatch)
         {
-            _spriteBatch.Draw(gateTexture, Positie, new Rectangle(0, 0, 52, 84), Color.White);
+            if(this.isdDead == false)
+            {
+                _spriteBatch.Draw(coinTexture, coinPositie, new Rectangle(0, 0, 30, 30), Color.White);
+            }            
         }
     }
 }

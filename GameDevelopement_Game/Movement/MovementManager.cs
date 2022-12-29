@@ -42,7 +42,7 @@ namespace GameDevelopement_Game.Movement
             bool collidesX = false;
             foreach (IGameObject obj in objects)
             {
-                if(obj.lvl == (int)hero._GameState)
+                if(obj.lvl == (int)hero._GameState && obj.isdDead == false)
                 {
                     if (heroCollisionRectangle.Intersects(obj.CollisionRectangle))
                     {
@@ -55,6 +55,11 @@ namespace GameDevelopement_Game.Movement
                         if (obj.isGate == true)
                         {
                             hero.levelCompleted = true;
+                        }
+                        if (obj.isCoin == true)
+                        {
+                            obj.isdDead = true;
+                            hero.coinCount++;
                         }
                         else
                         {
@@ -70,7 +75,7 @@ namespace GameDevelopement_Game.Movement
             bool collidesY = false;
             foreach (IGameObject obj in objects)
             {
-                if(obj.lvl == (int)hero._GameState)
+                if(obj.lvl == (int)hero._GameState && obj.isdDead == false)
                 {
                     if (heroCollisionRectangle.Intersects(obj.CollisionRectangle))
                     {
@@ -81,6 +86,15 @@ namespace GameDevelopement_Game.Movement
                                 hero.Health -= 1;
                                 invincibilityTimer = 0;
                             }
+                        }
+                        if (obj.isGate == true)
+                        {
+                            hero.levelCompleted = true;
+                        }
+                        if (obj.isCoin == true)
+                        {
+                            obj.isdDead = true;
+                            hero.coinCount++;
                         }
                         else
                         {

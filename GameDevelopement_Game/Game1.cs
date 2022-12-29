@@ -55,35 +55,64 @@ namespace GameDevelopement_Game
 
         private void InitializeGameObjects()
         {
-            //hero
-            Hero = new Hero(Content.Load<Texture2D>("Fox_Sprite_Sheet_Running_4x"),Content.Load<Texture2D>("Fox_Sprite_Sheet_Running_4x_reversed"), Content.Load<Texture2D>("Fox_Sprite_Sheet_Standing_Still_4x"), Content.Load<Texture2D>("Fox_Sprite_Sheet_Stinding_Still_4x_Reversed"), Content.Load<Texture2D>("Red_full"), new Vector2(0, 0), new KeyboardReader(1, true, false), GameObjectsList,gameState, 3); //lvl 3 ==> in beide lvls
-            //lvl 1
+            #region hero
+            Hero = new Hero(Content.Load<Texture2D>("Fox_Sprite_Sheet_Running_4x"),Content.Load<Texture2D>("Fox_Sprite_Sheet_Running_4x_reversed"), Content.Load<Texture2D>("Fox_Sprite_Sheet_Standing_Still_4x"), Content.Load<Texture2D>("Fox_Sprite_Sheet_Stinding_Still_4x_Reversed"), Content.Load<Texture2D>("Red_full"), Content.Load<Texture2D>("Yellow_full") ,new Vector2(0, 0), new KeyboardReader(1, true, false), GameObjectsList,gameState, 3); //lvl 3 ==> in beide lvls
+            #endregion
+            #region lvl1
+            //floors
             GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 250), 1680, 100, 1));
             GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(240, 500), 1680, 100, 1));
-            GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 750), 1680, 100, 1));            
+            GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 750), 1680, 100, 1));
+            //enemies
             GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), new Vector2(500, 500), 1));
-            GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(0, 956), 1));
-            //lvl 2
+            //endgate
+            GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(0, 956), 1));            
+            /*//test om snel van lvl 1 naar lvl 2 te gaan
+            GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(100, 150), 1));*/
+            //coins
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(200, 220), 1));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1800, 220), 1));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(800, 470), 1));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(300, 470), 1));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1000, 720), 1));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1500, 1010), 1));
+            #endregion
+            #region lvl2
+            //floors
             GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 250), 840, 100, 2));
             GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(1080, 250), 840, 100, 2));
             GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(240, 500), 1440, 100, 2));
             GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 750), 840, 100, 2));
             GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(1080, 750), 840, 100, 2));
+            //enemies
+            //endgate
             GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(1920-52, 956), 2));
-            //all levels
+            //coins
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(200, 220), 2));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1800, 220), 2));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(800, 470), 2));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(300, 470), 2));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1700, 720), 2));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(100, 1010), 2));
+            #endregion
+            #region all levels
             GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 1040), 1920, 10, 3));
+            #endregion
         }
 
         protected override void Update(GameTime gameTime)
         {
+            //to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Exit();
             }
+            //in main menu
             if (gameState == GameState.CurrentGameState.main_menu)
             {
                 //
             }
+            //in lvl 1
             if (gameState == GameState.CurrentGameState.level_1)
             {
                 Hero.Update(gameTime);               
@@ -98,18 +127,25 @@ namespace GameDevelopement_Game
                     }                    
                 }
             }
+            //exiting lvl 1
             if(Hero.isdDead == true && gameState == GameState.CurrentGameState.level_1)
             {
                 gameState = GameState.CurrentGameState.gameover;
+            }
+            if(Hero.coinCount >= 6 && gameState == GameState.CurrentGameState.level_1)
+            {
+                Hero.levelCompleted = true;
             }
             if(Hero.levelCompleted == true && gameState == GameState.CurrentGameState.level_1)
             {
                 Hero.isdDead = false;
                 Hero.levelCompleted = false;
+                Hero.coinCount = 0;
                 Hero.Positie = new Vector2(500, 0);
                 Hero._GameState = GameState.CurrentGameState.level_2;
                 gameState = GameState.CurrentGameState.level_2;
             }
+            //in lvl 2
             if (gameState == GameState.CurrentGameState.level_2)
             {
                 Hero.Update(gameTime);
@@ -124,6 +160,11 @@ namespace GameDevelopement_Game
                     }
                 }
             }
+            //exiting lvl 2
+            if (Hero.coinCount >= 6 && gameState == GameState.CurrentGameState.level_2)
+            {
+                Hero.levelCompleted = true;
+            }
             if (Hero.levelCompleted == true && gameState == GameState.CurrentGameState.level_2)
             {
                 Hero.isdDead = false;
@@ -131,11 +172,7 @@ namespace GameDevelopement_Game
                 Hero.Positie = new Vector2(500, 0);
                 Hero._GameState = GameState.CurrentGameState.finished;
                 gameState = GameState.CurrentGameState.finished;
-            }
-            if (gameState == GameState.CurrentGameState.gameover)
-            {
-                //
-            }           
+            }       
         }
 
         protected override void Draw(GameTime gameTime)
