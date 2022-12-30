@@ -65,6 +65,8 @@ namespace GameDevelopement_Game
             GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 750), 1680, 100, 1));
             //enemies
             GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), new Vector2(500, 500), 1));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), new Vector2(800, 800), 1));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), new Vector2(300, 300), 1));
             //endgate
             GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(0, 956), 1));            
             /*//test om snel van lvl 1 naar lvl 2 te gaan
