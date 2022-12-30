@@ -39,7 +39,14 @@ namespace GameDevelopement_Game.enemies
         }
         public void Draw (SpriteBatch _spriteBatch)
         {
-            _spriteBatch.Draw(enemyTexture, positie, animatie.CurrentFrame.SourceRectangle, Color.White);
+            if(direction == 1)
+            {
+                _spriteBatch.Draw(enemyTexture, positie, animatie.CurrentFrame.SourceRectangle, Color.White);
+            }
+            if(direction == -1)
+            {
+                _spriteBatch.Draw(enemyTextureReversed, positie, animatie.CurrentFrame.SourceRectangle, Color.White);
+            }            
         }
         private void Move()
         {

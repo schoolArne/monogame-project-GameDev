@@ -90,8 +90,8 @@ namespace GameDevelopement_Game
             GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2"), new Vector2(1600, 900), 1, floorListlvl1));
             //endgate
             GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(0, 956), 1));            
-            //test om snel van lvl 1 naar lvl 2 te gaan
-            GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(100, 150), 1));
+            /*//test om snel van lvl 1 naar lvl 2 te gaan
+            GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(100, 150), 1));*/
             //coins
             GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(200, 220), 1));
             GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1800, 220), 1));

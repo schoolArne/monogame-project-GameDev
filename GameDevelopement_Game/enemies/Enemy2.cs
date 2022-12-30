@@ -16,8 +16,8 @@ namespace GameDevelopement_Game.enemies
     {
         public int damage { get; } = 3;
         private Vector2 snelheid = new Vector2(3, 3);
-        private Vector2 toekomstigePositie;
         protected List<Floor> floorList;
+        private int direction = 1;
         public Enemy2(Texture2D t, Texture2D tr, Vector2 p, int _lvl, List<Floor> l)
         {
             enemyTexture = t;
@@ -39,13 +39,17 @@ namespace GameDevelopement_Game.enemies
         }
         public void Draw(SpriteBatch _spriteBatch)
         {
-            _spriteBatch.Draw(enemyTexture, positie, animatie.CurrentFrame.SourceRectangle, Color.White);
+            if (direction == 1)
+            {
+                _spriteBatch.Draw(enemyTexture, positie, animatie.CurrentFrame.SourceRectangle, Color.White);
+            }
+            if (direction == -1)
+            {
+                _spriteBatch.Draw(enemyTextureReversed, positie, animatie.CurrentFrame.SourceRectangle, Color.White);
+            }
         }
         private void Move()
         {
-            toekomstigePositie = positie + snelheid;
-            //collision
-
             positie += snelheid;
             //levelranden
             if (positie.X > 1920 - 84 || positie.X < 0)
@@ -55,6 +59,7 @@ namespace GameDevelopement_Game.enemies
             if (positie.Y > 1080 - 96 || positie.Y < 0)
             {
                 snelheid.Y *= -1;
+                direction *= -1;
             }
         }
     }
