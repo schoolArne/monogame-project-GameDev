@@ -33,6 +33,7 @@ namespace GameDevelopement_Game
         public bool isCoin { get; } = false;
         public int lvl { get; set; }
         public bool levelCompleted { get; set; }
+        public int damage { get; } = 0;
         //input
         private IInputReader inputreader;
 

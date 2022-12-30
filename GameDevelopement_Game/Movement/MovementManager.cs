@@ -49,7 +49,7 @@ namespace GameDevelopement_Game.Movement
                         if (obj.isEnemy == true && invincibilityTimer > 50)
                         {
                             hashit = true;
-                            hero.Health -= 1;
+                            hero.Health -= obj.damage;
                             invincibilityTimer = 0;
                         }
                         if (obj.isGate == true)
@@ -61,7 +61,7 @@ namespace GameDevelopement_Game.Movement
                             obj.isdDead = true;
                             hero.coinCount++;
                         }
-                        else
+                        else if(!obj.isEnemy)
                         {
                             collidesX = true;
 
@@ -83,7 +83,7 @@ namespace GameDevelopement_Game.Movement
                         {
                             if (hashit == false)
                             {
-                                hero.Health -= 1;
+                                hero.Health -= obj.damage;
                                 invincibilityTimer = 0;
                             }
                         }
@@ -96,7 +96,7 @@ namespace GameDevelopement_Game.Movement
                             obj.isdDead = true;
                             hero.coinCount++;
                         }
-                        else
+                        else if (!obj.isEnemy)
                         {
                             collidesY = true;
                         }
@@ -127,7 +127,7 @@ namespace GameDevelopement_Game.Movement
                 hero.ChangePosY(1080 - 96);
             }
             #endregion
-            if (hero.Health == 0)
+            if (hero.Health <= 0)
             {
                 hero.isdDead = true;
             }

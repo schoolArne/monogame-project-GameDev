@@ -12,6 +12,7 @@ namespace GameDevelopement_Game.enemies
 {
     internal class Enemy2 : Enemy, IGameObject
     {
+        public int damage { get; } = 3;
         public Enemy2(Texture2D t, Vector2 p, int _lvl)
         {
             enemyTexture = t;

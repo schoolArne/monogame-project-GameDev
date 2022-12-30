@@ -16,7 +16,8 @@ namespace GameDevelopement_Game
         public bool isFloor { get; } = true;
         public bool isGate { get; } = false;
         public bool isCoin { get; } = false;
-        public bool isdDead { get; set; } = false;  
+        public bool isdDead { get; set; } = false;
+        public int damage { get; } = 0;
         public int lvl { get; set; }
         private Texture2D floorTexture;
         private Vector2 floorPositie;

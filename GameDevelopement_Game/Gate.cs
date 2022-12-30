@@ -16,6 +16,7 @@ namespace GameDevelopement_Game
         public bool isGate { get; } = true;
         public bool isCoin { get; } = false;
         public bool isdDead { get; set; } = false;
+        public int damage { get; } = 0;
         public int lvl { get; set; }
         private Vector2 Positie;
         private Texture2D gateTexture;

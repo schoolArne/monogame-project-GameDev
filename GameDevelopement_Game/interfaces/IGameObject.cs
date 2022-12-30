@@ -16,6 +16,7 @@ namespace GameDevelopement_Game.interfaces
         public bool isCoin { get; }
         public bool isdDead { get; set; }
         public int lvl { get; set; }
+        public int damage { get; }
         public Rectangle CollisionRectangle { get; }
         void Update(GameTime gametime);
 

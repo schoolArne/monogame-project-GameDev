@@ -62,13 +62,17 @@ namespace GameDevelopement_Game
             GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(240, 500), 1680, 100, 1));
             GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 750), 1680, 100, 1));
             //enemies
-            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), new Vector2(500, 500), 1));
-            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), new Vector2(800, 800), 1));
-            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), new Vector2(300, 300), 1));
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), new Vector2(900, 187), 1));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), new Vector2(400, 430), 1));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), new Vector2(1500, 430), 1));
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), new Vector2(200, 687), 1));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), new Vector2(1350, 680), 1));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), new Vector2(800, 900), 1));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), new Vector2(1600, 900), 1));
             //endgate
             GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(0, 956), 1));            
-            /*//test om snel van lvl 1 naar lvl 2 te gaan
-            GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(100, 150), 1));*/
+            //test om snel van lvl 1 naar lvl 2 te gaan
+            GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(100, 150), 1));
             //coins
             GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(200, 220), 1));
             GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1800, 220), 1));
@@ -85,6 +89,15 @@ namespace GameDevelopement_Game
             GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 750), 840, 100, 2));
             GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(1080, 750), 840, 100, 2));
             //enemies
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), new Vector2(600, 187), 2));
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), new Vector2(1200, 187), 2));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), new Vector2(600, 430), 2));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), new Vector2(1300, 430), 2));
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), new Vector2(200, 687), 2));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), new Vector2(1350, 680), 2));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), new Vector2(200, 900), 2));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), new Vector2(800, 900), 2));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), new Vector2(1600, 900), 2));
             //endgate
             GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(1920-52, 956), 2));
             //coins
@@ -129,10 +142,6 @@ namespace GameDevelopement_Game
                 }
             }
             //exiting lvl 1
-            if(Hero.isdDead == true && gameState == GameState.CurrentGameState.level_1)
-            {
-                gameState = GameState.CurrentGameState.gameover;
-            }
             if(Hero.coinCount >= 6 && gameState == GameState.CurrentGameState.level_1)
             {
                 Hero.levelCompleted = true;
@@ -142,7 +151,7 @@ namespace GameDevelopement_Game
                 Hero.isdDead = false;
                 Hero.levelCompleted = false;
                 Hero.coinCount = 0;
-                Hero.Positie = new Vector2(500, 0);
+                Hero.Positie = new Vector2(0, 0);
                 Hero._GameState = GameState.CurrentGameState.level_2;
                 gameState = GameState.CurrentGameState.level_2;
             }
@@ -173,7 +182,12 @@ namespace GameDevelopement_Game
                 Hero.Positie = new Vector2(500, 0);
                 Hero._GameState = GameState.CurrentGameState.finished;
                 gameState = GameState.CurrentGameState.finished;
-            }       
+            }
+            //death
+            if (Hero.isdDead == true && gameState == GameState.CurrentGameState.level_1 || Hero.isdDead && gameState == GameState.CurrentGameState.level_2)
+            {
+                gameState = GameState.CurrentGameState.gameover;
+            }
         }
 
         protected override void Draw(GameTime gameTime)

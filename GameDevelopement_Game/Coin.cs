@@ -17,6 +17,7 @@ namespace GameDevelopement_Game
         public bool isGate { get; } = false;
         public bool isCoin { get; } = true;
         public bool isdDead { get; set; } = false;
+        public int damage { get; } = 0;
         public int lvl { get; set; }
         private Texture2D coinTexture;
         private Vector2 coinPositie;
