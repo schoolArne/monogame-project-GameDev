@@ -12,7 +12,8 @@ namespace GameDevelopement_Game.enemies
     public abstract class Enemy
     {
         protected Texture2D enemyTexture;
-        protected Vector2 positie;
+        protected Texture2D enemyTextureReversed;
+        public Vector2 positie;
         protected Animatie animatie;
         public bool isEnemy { get; } = true;
         public bool isdDead { get; set; } = false;
@@ -20,6 +21,7 @@ namespace GameDevelopement_Game.enemies
         public bool isGate { get; } = false;
         public bool isCoin { get; } = false;
         public int lvl { get; set; }
+        
         public Rectangle CollisionRectangle
         {
             get

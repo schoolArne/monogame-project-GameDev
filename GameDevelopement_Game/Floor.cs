@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GameDevelopement_Game
 {
-    internal class Floor : IGameObject
+    public class Floor : IGameObject
     {
         public bool isEnemy { get; } = false;
         public bool isFloor { get; } = true;

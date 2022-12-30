@@ -14,9 +14,13 @@ namespace GameDevelopement_Game.enemies
     internal class Enemy1: Enemy, IGameObject
     {
         public int damage { get; } = 1;
-        public Enemy1(Texture2D t, Vector2 p, int _lvl)
+        private int wanderRadius = 300;
+        private int wandered = 0;
+        private int direction = 1;
+        public Enemy1(Texture2D t,Texture2D tr, Vector2 p, int _lvl)
         {
             enemyTexture = t;
+            enemyTextureReversed = tr;
             positie = p;
             #region animatie
             animatie = new Animatie(10);
@@ -31,10 +35,29 @@ namespace GameDevelopement_Game.enemies
         public void Update (GameTime gametime)
         {
             animatie.Update(gametime);
+            this.Move();
         }
         public void Draw (SpriteBatch _spriteBatch)
         {
             _spriteBatch.Draw(enemyTexture, positie, animatie.CurrentFrame.SourceRectangle, Color.White);
+        }
+        private void Move()
+        {
+            if(direction == 1)
+            {
+                positie.X += 1;
+                wandered++;
+            }
+            if (direction == -1)
+            {
+                positie.X -= 1;
+                wandered++;
+            }
+            if(wandered >= wanderRadius)
+            {
+                direction *= -1;
+                wandered = 0;
+            }
         }
     }
 }

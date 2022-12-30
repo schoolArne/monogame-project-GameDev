@@ -10,6 +10,7 @@ using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Text;
 using Color = Microsoft.Xna.Framework.Color;
 
 namespace GameDevelopement_Game
@@ -19,13 +20,16 @@ namespace GameDevelopement_Game
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Texture2D background;
+        private Texture2D startScherm;
         private Texture2D gameOver;
         private Texture2D finished;
-        private GameState.CurrentGameState gameState = GameState.CurrentGameState.level_1;
+        private GameState.CurrentGameState gameState = GameState.CurrentGameState.main_menu;
         //hero
         Hero Hero;
         //andere gameobjects
         public List<IGameObject> GameObjectsList = new List<IGameObject>();
+        public List<Floor> floorListlvl1 = new List<Floor>();
+        public List<Floor> floorListlvl2 = new List<Floor>();
 
         public Game1()
         {
@@ -47,28 +51,43 @@ namespace GameDevelopement_Game
 
             InitializeGameObjects();
             background = Content.Load<Texture2D>("background");
+            startScherm = Content.Load<Texture2D>("startscherm");
             gameOver = Content.Load<Texture2D>("game_over");
             finished = Content.Load<Texture2D>("success");
         }
 
         private void InitializeGameObjects()
         {
+            #region all levels
+            //bottom of screen floor
+            Floor bottomFloor = new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 1040), 1920, 10, 3);
+            GameObjectsList.Add(bottomFloor);
+            floorListlvl1.Add(bottomFloor);
+            floorListlvl2.Add(bottomFloor);
+            #endregion
             #region hero
             Hero = new Hero(Content.Load<Texture2D>("Fox_Sprite_Sheet_Running_4x"),Content.Load<Texture2D>("Fox_Sprite_Sheet_Running_4x_reversed"), Content.Load<Texture2D>("Fox_Sprite_Sheet_Standing_Still_4x"), Content.Load<Texture2D>("Fox_Sprite_Sheet_Stinding_Still_4x_Reversed"), Content.Load<Texture2D>("Red_full"), Content.Load<Texture2D>("Yellow_full") ,new Vector2(0, 0), new KeyboardReader(1, true, false), GameObjectsList,gameState, 3); //lvl 3 ==> in beide lvls
             #endregion
             #region lvl1
             //floors
-            GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 250), 1680, 100, 1));
-            GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(240, 500), 1680, 100, 1));
-            GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 750), 1680, 100, 1));
+            Floor floor1 = new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 250), 1680, 100, 1);
+            Floor floor2 = new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(240, 500), 1680, 100, 1);
+            Floor floor3 = new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 750), 1680, 100, 1);
+            GameObjectsList.Add(floor1);
+            GameObjectsList.Add(floor2);
+            GameObjectsList.Add(floor3);
+            floorListlvl1.Add(floor1);
+            floorListlvl1.Add(floor2);
+            floorListlvl1.Add(floor3);
+            floorListlvl1.Add(floor3);
             //enemies
-            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), new Vector2(900, 187), 1));
-            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), new Vector2(400, 430), 1));
-            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), new Vector2(1500, 430), 1));
-            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), new Vector2(200, 687), 1));
-            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), new Vector2(1350, 680), 1));
-            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), new Vector2(800, 900), 1));
-            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), new Vector2(1600, 900), 1));
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1"), new Vector2(900, 187), 1));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3"), new Vector2(400, 430), 1));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3"), new Vector2(1500, 430), 1));
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1"), new Vector2(200, 687), 1));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3"), new Vector2(1300, 680), 1));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2"), new Vector2(800, 900), 1, floorListlvl1));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2"), new Vector2(1600, 900), 1, floorListlvl1));
             //endgate
             GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(0, 956), 1));            
             //test om snel van lvl 1 naar lvl 2 te gaan
@@ -83,21 +102,31 @@ namespace GameDevelopement_Game
             #endregion
             #region lvl2
             //floors
-            GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 250), 840, 100, 2));
-            GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(1080, 250), 840, 100, 2));
-            GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(240, 500), 1440, 100, 2));
-            GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 750), 840, 100, 2));
-            GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(1080, 750), 840, 100, 2));
+            Floor floor4 = new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 250), 840, 100, 2);
+            Floor floor5 = new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(1080, 250), 840, 100, 2);
+            Floor floor6 = new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(240, 500), 1440, 100, 2);
+            Floor floor7 = new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 750), 840, 100, 2);
+            Floor floor8 = new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(1080, 750), 840, 100, 2);
+            GameObjectsList.Add(floor4);
+            GameObjectsList.Add(floor5);
+            GameObjectsList.Add(floor6);
+            GameObjectsList.Add(floor7);
+            GameObjectsList.Add(floor8);
+            floorListlvl2.Add(floor4);
+            floorListlvl2.Add(floor5);
+            floorListlvl2.Add(floor6);
+            floorListlvl2.Add(floor7);
+            floorListlvl2.Add(floor8);
             //enemies
-            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), new Vector2(600, 187), 2));
-            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), new Vector2(1200, 187), 2));
-            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), new Vector2(600, 430), 2));
-            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), new Vector2(1300, 430), 2));
-            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), new Vector2(200, 687), 2));
-            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), new Vector2(1350, 680), 2));
-            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), new Vector2(200, 900), 2));
-            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), new Vector2(800, 900), 2));
-            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), new Vector2(1600, 900), 2));
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1"), new Vector2(400, 187), 2));
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1"), new Vector2(1200, 187), 2));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3"), new Vector2(600, 430), 2));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3"), new Vector2(1300, 430), 2));
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1"), new Vector2(200, 687), 2));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3"), new Vector2(1350, 680), 2));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2"), new Vector2(200, 900), 2, floorListlvl2));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2"), new Vector2(800, 900), 2, floorListlvl2));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2"), new Vector2(1600, 900), 2, floorListlvl2));
             //endgate
             GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(1920-52, 956), 2));
             //coins
@@ -107,10 +136,6 @@ namespace GameDevelopement_Game
             GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(300, 470), 2));
             GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1700, 720), 2));
             GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(100, 1010), 2));
-            #endregion
-            #region all levels
-            //bottom of screen floor
-            GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 1040), 1920, 10, 3));
             #endregion
         }
 
@@ -122,9 +147,10 @@ namespace GameDevelopement_Game
                 Exit();
             }
             //in main menu
-            if (gameState == GameState.CurrentGameState.main_menu)
+            if (gameState == GameState.CurrentGameState.main_menu && Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-                //
+                gameState = GameState.CurrentGameState.level_1;
+                Hero._GameState = GameState.CurrentGameState.level_1;
             }
             //in lvl 1
             if (gameState == GameState.CurrentGameState.level_1)
@@ -151,6 +177,7 @@ namespace GameDevelopement_Game
                 Hero.isdDead = false;
                 Hero.levelCompleted = false;
                 Hero.coinCount = 0;
+                Hero.Health = 10;
                 Hero.Positie = new Vector2(0, 0);
                 Hero._GameState = GameState.CurrentGameState.level_2;
                 gameState = GameState.CurrentGameState.level_2;
@@ -197,7 +224,7 @@ namespace GameDevelopement_Game
 
             if(gameState == GameState.CurrentGameState.main_menu)
             {
-                _spriteBatch.Draw(background, new Vector2(0, 0), Color.White);
+                _spriteBatch.Draw(startScherm, new Vector2(0, 0), Color.White);
             }
             if(gameState == GameState.CurrentGameState.level_1)
             {
