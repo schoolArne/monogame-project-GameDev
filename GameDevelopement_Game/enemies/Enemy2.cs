@@ -17,7 +17,7 @@ namespace GameDevelopement_Game.enemies
             enemyTexture = t;
             positie = p;
             #region animatie
-            animatie = new Animatie();
+            animatie = new Animatie(17);
             animatie.AddAnimationFrame(new AnimationFrame(new Rectangle(0, 0, 60, 64)));
             animatie.AddAnimationFrame(new AnimationFrame(new Rectangle(60, 0, 60, 64)));
             animatie.AddAnimationFrame(new AnimationFrame(new Rectangle(120, 0, 60, 64)));
@@ -28,10 +28,28 @@ namespace GameDevelopement_Game.enemies
         public void Update(GameTime gametime)
         {
             animatie.Update(gametime);
+            //this.Move();
         }
         public void Draw(SpriteBatch _spriteBatch)
         {
             _spriteBatch.Draw(enemyTexture, positie, animatie.CurrentFrame.SourceRectangle, Color.White);
         }
+        /*
+        private void Move()
+        {
+            positie += snelheid;
+            float maxSpeed = 1000;
+            snelheid = Versnel(snelheid, maxSpeed);
+
+            if (positie.X > 1920 - 84 || positie.X < 0)
+            {
+                snelheid.X *= -1;
+            }
+            if (positie.Y > 1080 - 96 || positie.Y < 0)
+            {
+                snelheid.Y *= -1;
+            }
+        }
+        */
     }
 }

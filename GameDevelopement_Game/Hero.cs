@@ -137,7 +137,7 @@ namespace GameDevelopement_Game
             this.coinBar = coins;
             inputreader = Inputreader;
             #region animation
-            animatie = new Animatie();
+            animatie = new Animatie(15);
             animatie.AddAnimationFrame(new AnimationFrame(new Rectangle(0, 0, 84, 64)));
             animatie.AddAnimationFrame(new AnimationFrame(new Rectangle(128, 0, 84, 64)));
             animatie.AddAnimationFrame(new AnimationFrame(new Rectangle(256, 0, 84, 64)));
@@ -228,21 +228,6 @@ namespace GameDevelopement_Game
             if (v.Y > max) { v.Y = max; }
             if (v.Y < -max) { v.Y = -max; }
             return v;
-        }
-        private void Move()
-        {
-            positie += snelheid;
-            float maxSpeed = 1000;
-            snelheid = Versnel(snelheid, maxSpeed);           
-            
-            if(positie.X > 1920 - 84 || positie.X < 0)
-            {
-                snelheid.X *= -1;
-            }
-            if (positie.Y > 1080 - 96 || positie.Y < 0)
-            {
-                snelheid.Y *= -1;
-            }
         }
         private void MoveWithMouse()
         {

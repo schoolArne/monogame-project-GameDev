@@ -18,7 +18,7 @@ namespace GameDevelopement_Game.enemies
             enemyTexture = t;
             positie = p;
             #region animatie
-            animatie = new Animatie();
+            animatie = new Animatie(10);
             animatie.AddAnimationFrame(new AnimationFrame(new Rectangle(0, 0, 60, 63)));
             animatie.AddAnimationFrame(new AnimationFrame(new Rectangle(72, 0, 60, 63)));
             animatie.AddAnimationFrame(new AnimationFrame(new Rectangle(144, 0, 60, 63)));
