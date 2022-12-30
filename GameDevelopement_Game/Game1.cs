@@ -38,7 +38,6 @@ namespace GameDevelopement_Game
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
             base.Initialize();            
         }
 
@@ -50,7 +49,6 @@ namespace GameDevelopement_Game
             background = Content.Load<Texture2D>("background");
             gameOver = Content.Load<Texture2D>("game_over");
             finished = Content.Load<Texture2D>("success");
-            // TODO: use this.Content to load your game content here
         }
 
         private void InitializeGameObjects()
@@ -98,6 +96,7 @@ namespace GameDevelopement_Game
             GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(100, 1010), 2));
             #endregion
             #region all levels
+            //bottom of screen floor
             GameObjectsList.Add(new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 1040), 1920, 10, 3));
             #endregion
         }
