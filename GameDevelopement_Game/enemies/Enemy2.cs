@@ -55,11 +55,12 @@ namespace GameDevelopement_Game.enemies
             if (positie.X > 1920 - 84 || positie.X < 0)
             {
                 snelheid.X *= -1;
+                direction *= -1;
             }
             if (positie.Y > 1080 - 96 || positie.Y < 0)
             {
                 snelheid.Y *= -1;
-                direction *= -1;
+                //direction *= -1;
             }
         }
     }
