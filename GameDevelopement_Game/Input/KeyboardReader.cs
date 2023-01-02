@@ -53,7 +53,6 @@ namespace GameDevelopement_Game.Input
             if (state.IsKeyDown(Keys.Up))
             {
                 direction.Y -= 1;
-                //
                 return direction;
             }
             if (/*state.IsKeyDown(Keys.Down)*/true)

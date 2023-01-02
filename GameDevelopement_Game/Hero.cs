@@ -260,46 +260,5 @@ namespace GameDevelopement_Game
             coinbarSize = new Rectangle(0, 0, coinCount * 100, 20);
             _spriteBatch.Draw(coinBar, coinbarPos, coinbarSize, Color.White);
         }
-        private Vector2 Versnel(Vector2 v, float max)
-        {
-            switch (v.X)
-            {
-                case > 0:
-                    v.X += versnelling.X;
-                    break;
-                case < 0:
-                    v.X -= versnelling.X;
-                    break;
-                default:
-                    break;
-            }
-            if (v.X > max) { v.X = max; }
-            if (v.X < -max) { v.X = -max; }
-            switch (v.Y)
-            {
-                case > 0:
-                    v.Y += versnelling.Y;
-                    break;
-                case < 0:
-                    v.Y -= versnelling.Y;
-                    break;
-                default:
-                    break;
-            }
-            if (v.Y > max) { v.Y = max; }
-            if (v.Y < -max) { v.Y = -max; }
-            return v;
-        }
-        private void MoveWithMouse()
-        {
-            MouseState state = Mouse.GetState();
-            Vector2 mouseVector = new Vector2(state.X, state.Y);
-
-            var richting = mouseVector - positie;
-            richting.Normalize();
-            var afTeLeggenAfstand = richting * snelheid;
-            positie += afTeLeggenAfstand;
-
-        }
     }
 }
