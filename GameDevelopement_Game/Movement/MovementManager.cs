@@ -28,6 +28,7 @@ namespace GameDevelopement_Game.Movement
             hero.Direction = inputReader.ReadInput();
             hero.Direction *= hero.Snelheid;
             toekomstigePositie = hero.Positie + hero.Direction;
+            hero.invincibilityTimer = invincibilityTimer;
             
             if (inputReader.triesToJump)
             {
@@ -106,6 +107,10 @@ namespace GameDevelopement_Game.Movement
             if (!collidesX) { hero.ChangePosY(toekomstigePositie.Y); }
             hashit = false;
             invincibilityTimer++;
+            if(invincibilityTimer == 2000000000)
+            {
+                invincibilityTimer = 100;
+            }
 
 
 
