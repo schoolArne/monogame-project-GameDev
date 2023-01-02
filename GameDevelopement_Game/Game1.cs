@@ -81,13 +81,13 @@ namespace GameDevelopement_Game
             floorListlvl1.Add(floor3);
             floorListlvl1.Add(floor3);
             //enemies
-            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1"), new Vector2(900, 187), 1));
-            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3"), new Vector2(400, 430), 1));
-            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3"), new Vector2(1500, 430), 1));
-            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1"), new Vector2(200, 687), 1));
-            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3"), new Vector2(1300, 680), 1));
-            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2"), new Vector2(800, 900), 1, floorListlvl1));
-            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2"), new Vector2(1600, 900), 1, floorListlvl1));
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(900, 187), 1));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(400, 430), 1));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(1500, 430), 1));
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(200, 687), 1));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(1300, 680), 1));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(800, 900), 1, floorListlvl1));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(1600, 900), 1, floorListlvl1));
             //endgate
             GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(0, 956), 1));            
             /*//test om snel van lvl 1 naar lvl 2 te gaan
@@ -118,15 +118,15 @@ namespace GameDevelopement_Game
             floorListlvl2.Add(floor7);
             floorListlvl2.Add(floor8);
             //enemies
-            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1"), new Vector2(400, 187), 2));
-            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1"), new Vector2(1200, 187), 2));
-            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3"), new Vector2(600, 430), 2));
-            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3"), new Vector2(1300, 430), 2));
-            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1"), new Vector2(200, 687), 2));
-            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3"), new Vector2(1350, 680), 2));
-            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2"), new Vector2(200, 900), 2, floorListlvl2));
-            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2"), new Vector2(800, 900), 2, floorListlvl2));
-            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2"), new Vector2(1600, 900), 2, floorListlvl2));
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(400, 187), 2));
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(1200, 187), 2));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(600, 430), 2));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(1300, 430), 2));
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(200, 687), 2));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(1350, 680), 2));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(200, 900), 2, floorListlvl2));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(800, 900), 2, floorListlvl2));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(1600, 900), 2, floorListlvl2));
             //endgate
             GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(1920-52, 956), 2));
             //coins
