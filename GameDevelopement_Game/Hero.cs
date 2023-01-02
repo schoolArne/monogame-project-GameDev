@@ -90,6 +90,7 @@ namespace GameDevelopement_Game
             direction.Y = y;
         }
         private MovementManager heroMovementManager;
+        public bool isStandingStill;
 
         //health
         private int health;

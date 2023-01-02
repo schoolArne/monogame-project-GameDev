@@ -26,6 +26,10 @@ namespace GameDevelopement_Game.Input
         {
             KeyboardState state = Keyboard.GetState();
             Vector2 direction = Vector2.Zero;
+            if (state.IsKeyUp(Keys.Left) && state.IsKeyUp(Keys.Right) && state.IsKeyUp(Keys.Space))
+            {
+                isStandingStill = true;
+            }
             if (state.IsKeyDown(Keys.Left))
             {
                 isStandingStill = false;
@@ -54,14 +58,9 @@ namespace GameDevelopement_Game.Input
             }
             if (/*state.IsKeyDown(Keys.Down)*/true)
             {
-                isStandingStill = false;
                 direction.Y += 1;
                 //
                 return direction;
-            }
-            if (state.IsKeyUp(Keys.Left) && state.IsKeyUp(Keys.Right) && state.IsKeyUp(Keys.Space) && state.IsKeyUp(Keys.Down))
-            {
-                isStandingStill = true;
             }
             return direction;
         }
