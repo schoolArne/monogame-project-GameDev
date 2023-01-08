@@ -15,6 +15,7 @@ namespace GameDevelopement_Game.Input
         public bool isStandingStill { get; set; }
 
         public bool triesToJump { get; set; }
+        private int jumpTimer = 0;
 
         public KeyboardReader(int LookDirection, bool isStandingStill, bool Jump)
         {
@@ -24,6 +25,7 @@ namespace GameDevelopement_Game.Input
         }
         public Vector2 ReadInput()
         {
+            jumpTimer++;
             KeyboardState state = Keyboard.GetState();
             Vector2 direction = Vector2.Zero;
             if (state.IsKeyUp(Keys.Left) && state.IsKeyUp(Keys.Right) && state.IsKeyUp(Keys.Space))
@@ -46,14 +48,17 @@ namespace GameDevelopement_Game.Input
                 //
                 return direction;
             }
-            if (state.IsKeyDown(Keys.Space))
-            {
-                triesToJump = true;
-            }
             if (state.IsKeyDown(Keys.Up))
             {
-                direction.Y -= 1;
-                return direction;
+                if(jumpTimer > 60)
+                {
+                    jumpTimer = 0;
+                }
+                if(jumpTimer < 30)
+                {
+                    direction.Y -= 1;
+                    return direction;
+                }
             }
             if (/*state.IsKeyDown(Keys.Down)*/true)
             {
