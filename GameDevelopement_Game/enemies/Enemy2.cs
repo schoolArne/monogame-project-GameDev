@@ -1,5 +1,6 @@
 ﻿using GameDevelopement_Game.Animation;
 using GameDevelopement_Game.interfaces;
+using GameDevelopement_Game.rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SharpDX.MediaFoundation;
@@ -39,14 +40,7 @@ namespace GameDevelopement_Game.enemies
         }
         public void Draw(SpriteBatch _spriteBatch)
         {
-            if (direction == 1)
-            {
-                _spriteBatch.Draw(enemyTexture, positie, animatie.CurrentFrame.SourceRectangle, Color.White);
-            }
-            if (direction == -1)
-            {
-                _spriteBatch.Draw(enemyTextureReversed, positie, animatie.CurrentFrame.SourceRectangle, Color.White);
-            }
+            RenderEnemy.DrawEnemy(_spriteBatch, positie, enemyTexture, enemyTextureReversed, animatie, direction);
         }
         private void Move()
         {
