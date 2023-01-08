@@ -23,16 +23,16 @@ namespace GameDevelopement_Game.Movement
             jumpTimer = 0;
             invincibilityTimer = 50;
         }
-        public void Move(Hero hero,int heroWidth, int heroHeight, List<IGameObject> objects)
+        public void Move(Hero hero, int heroWidth, int heroHeight, List<IGameObject> objects)
         {
             hero.Direction = inputReader.ReadInput();
             hero.Direction *= hero.Snelheid;
             toekomstigePositie = hero.Positie + hero.Direction;
             hero.invincibilityTimer = invincibilityTimer;
-            
+
             if (inputReader.triesToJump)
             {
-                
+                //Jump(hero.Positie.Y, 20);
             }
 
             #region collision detection
@@ -43,7 +43,7 @@ namespace GameDevelopement_Game.Movement
             bool collidesX = false;
             foreach (IGameObject obj in objects)
             {
-                if(obj.lvl == (int)hero._GameState && obj.isdDead == false)
+                if (obj.lvl == (int)hero._GameState && obj.isdDead == false)
                 {
                     if (heroCollisionRectangle.Intersects(obj.CollisionRectangle))
                     {
@@ -62,13 +62,13 @@ namespace GameDevelopement_Game.Movement
                             obj.isdDead = true;
                             hero.coinCount++;
                         }
-                        else if(!obj.isEnemy)
+                        else if (!obj.isEnemy)
                         {
                             collidesX = true;
 
                         }
                     }
-                }                
+                }
             }
             if (!collidesX) { hero.ChangePosX(toekomstigePositie.X); }
 
@@ -76,7 +76,7 @@ namespace GameDevelopement_Game.Movement
             bool collidesY = false;
             foreach (IGameObject obj in objects)
             {
-                if(obj.lvl == (int)hero._GameState && obj.isdDead == false)
+                if (obj.lvl == (int)hero._GameState && obj.isdDead == false)
                 {
                     if (heroCollisionRectangle.Intersects(obj.CollisionRectangle))
                     {
@@ -102,12 +102,12 @@ namespace GameDevelopement_Game.Movement
                             collidesY = true;
                         }
                     }
-                }                
+                }
             }
             if (!collidesX) { hero.ChangePosY(toekomstigePositie.Y); }
             hashit = false;
             invincibilityTimer++;
-            if(invincibilityTimer == 2000000000)
+            if (invincibilityTimer == 2000000000)
             {
                 invincibilityTimer = 100;
             }
@@ -137,5 +137,32 @@ namespace GameDevelopement_Game.Movement
                 hero.isdDead = true;
             }
         }
+        /*
+        private bool Jump(float charPosY, float jumpHeight)
+        {
+            //Temporary vars
+            float charStartPosY = charPosY;
+            float jumpStartHeight = jumpHeight;
+            bool goDown = false;
+
+            //Check if character is not going down, let the man jump!
+            while (!goDown)
+            {
+                for (float i = 0; i <= jumpStartHeight; i++)
+                {
+                    charPosY -= jumpHeight;
+                    jumpHeight--;
+                    if (i >= jumpStartHeight)
+                    {
+                        //If the man finished jumping, set goDown true
+                        goDown = true;
+                        jumpHeight = jumpStartHeight;
+                    }
+                }
+            }
+
+            return goDown;
+        }*/
     }
+    
 }

@@ -3,6 +3,7 @@ using GameDevelopement_Game.enums;
 using GameDevelopement_Game.Input;
 using GameDevelopement_Game.interfaces;
 using GameDevelopement_Game.Movement;
+using GameDevelopement_Game.rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -172,93 +173,7 @@ namespace GameDevelopement_Game
         
         public void Draw(SpriteBatch _spriteBatch)
         {
-            //render hero
-            //hero is hit and has invicibility frames
-            if(invincibilityTimer < 50)
-            {
-                if(invincibilityTimer % 2 == 0)
-                {
-                    if (inputreader.isStandingStill == true)
-                    {
-                        if (inputreader.lookDirection < 0)
-                        {
-                            _spriteBatch.Draw(heroTextureStandingStillReversed, positie, standingStillSourceRectangle, Color.Red);
-                        }
-                        if (inputreader.lookDirection > 0)
-                        {
-                            _spriteBatch.Draw(heroTextureStandingStill, positie, standingStillSourceRectangle, Color.Red);
-                        }
-                    }
-                    else
-                    {
-                        if (inputreader.lookDirection < 0)
-                        {
-                            _spriteBatch.Draw(heroTextureRunningReversed, positie, animatie.CurrentFrame.SourceRectangle, Color.Red);
-                        }
-                        if (inputreader.lookDirection > 0)
-                        {
-                            _spriteBatch.Draw(heroTextureRunning, positie, animatie.CurrentFrame.SourceRectangle, Color.Red);
-                        }
-                    }
-                }
-                else
-                {
-                    if (inputreader.isStandingStill == true)
-                    {
-                        if (inputreader.lookDirection < 0)
-                        {
-                            _spriteBatch.Draw(heroTextureStandingStillReversed, positie, standingStillSourceRectangle, Color.White);
-                        }
-                        if (inputreader.lookDirection > 0)
-                        {
-                            _spriteBatch.Draw(heroTextureStandingStill, positie, standingStillSourceRectangle, Color.White);
-                        }
-                    }
-                    else
-                    {
-                        if (inputreader.lookDirection < 0)
-                        {
-                            _spriteBatch.Draw(heroTextureRunningReversed, positie, animatie.CurrentFrame.SourceRectangle, Color.White);
-                        }
-                        if (inputreader.lookDirection > 0)
-                        {
-                            _spriteBatch.Draw(heroTextureRunning, positie, animatie.CurrentFrame.SourceRectangle, Color.White);
-                        }
-                    }
-                }
-            }
-            //hero doesn't have invincibility frames
-            else
-            {
-                if (inputreader.isStandingStill == true)
-                {
-                    if (inputreader.lookDirection < 0)
-                    {
-                        _spriteBatch.Draw(heroTextureStandingStillReversed, positie, standingStillSourceRectangle, Color.White);
-                    }
-                    if (inputreader.lookDirection > 0)
-                    {
-                        _spriteBatch.Draw(heroTextureStandingStill, positie, standingStillSourceRectangle, Color.White);
-                    }
-                }
-                else
-                {
-                    if (inputreader.lookDirection < 0)
-                    {
-                        _spriteBatch.Draw(heroTextureRunningReversed, positie, animatie.CurrentFrame.SourceRectangle, Color.White);
-                    }
-                    if (inputreader.lookDirection > 0)
-                    {
-                        _spriteBatch.Draw(heroTextureRunning, positie, animatie.CurrentFrame.SourceRectangle, Color.White);
-                    }
-                }
-            }            
-            //render hero health
-            healthbarSize = new Rectangle(0, 0, health * 100, 20);
-            _spriteBatch.Draw(healthBar, healthbarPos, healthbarSize, Color.White);
-            //render coin count
-            coinbarSize = new Rectangle(0, 0, coinCount * 100, 20);
-            _spriteBatch.Draw(coinBar, coinbarPos, coinbarSize, Color.White);
+            RenderHero.DrawHero(_spriteBatch, inputreader, heroTextureRunning, heroTextureRunningReversed, heroTextureStandingStill, heroTextureStandingStillReversed, healthBar, coinBar, positie, animatie, invincibilityTimer, health, healthbarPos, coinCount, coinbarPos);
         }
     }
 }
