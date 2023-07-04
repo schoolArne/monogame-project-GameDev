@@ -38,7 +38,7 @@ namespace GameDevelopement_Game.Input
                 direction.X -= 1;
                 this.lookDirection = -1;
                 //
-                return direction;
+                //return direction;
             }
             if (state.IsKeyDown(Keys.Right))
             {
@@ -46,7 +46,7 @@ namespace GameDevelopement_Game.Input
                 direction.X += 1;
                 this.lookDirection = 1;
                 //
-                return direction;
+                //return direction;
             }
             if (state.IsKeyDown(Keys.Up))
             {
@@ -57,14 +57,17 @@ namespace GameDevelopement_Game.Input
                 if(jumpTimer < 30)
                 {
                     direction.Y -= 1;
-                    return direction;
+                    //return direction;
                 }
             }
             if (/*state.IsKeyDown(Keys.Down)*/true)
             {
-                direction.Y += 1;
-                //
-                return direction;
+                if(jumpTimer >= 30)
+                {
+                    direction.Y += 1;
+                    //
+                    //return direction;
+                }                
             }
             return direction;
         }

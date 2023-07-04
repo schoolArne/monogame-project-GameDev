@@ -63,9 +63,12 @@ namespace GameDevelopement_Game.Movement
                             hero.coinCount++;
                         }
                         else if (!obj.isEnemy)
-                        {
-                            collidesX = true;
-
+                        {   
+                            Rectangle rectangleToCeck = new Rectangle(obj.CollisionRectangle.Location.X, obj.CollisionRectangle.Location.Y + 10, obj.CollisionRectangle.Size.X, obj.CollisionRectangle.Size.Y - 10); 
+                            if(heroCollisionRectangle.Intersects(rectangleToCeck))
+                            {
+                                collidesX = true;
+                            }                            
                         }
                     }
                 }
@@ -104,7 +107,7 @@ namespace GameDevelopement_Game.Movement
                     }
                 }
             }
-            if (!collidesX) { hero.ChangePosY(toekomstigePositie.Y); }
+            if (!collidesY) { hero.ChangePosY(toekomstigePositie.Y); }
             hashit = false;
             invincibilityTimer++;
             if (invincibilityTimer == 2000000000)
