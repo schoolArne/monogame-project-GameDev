@@ -30,11 +30,6 @@ namespace GameDevelopement_Game.Movement
             toekomstigePositie = hero.Positie + hero.Direction;
             hero.invincibilityTimer = invincibilityTimer;
 
-            if (inputReader.triesToJump)
-            {
-                //Jump(hero.Positie.Y, 20);
-            }
-
             #region collision detection
             bool hashit = false;
             Rectangle heroCollisionRectangle;
@@ -63,12 +58,12 @@ namespace GameDevelopement_Game.Movement
                             hero.coinCount++;
                         }
                         else if (!obj.isEnemy)
-                        {   
+                        {
                             Rectangle rectangleToCeck = new Rectangle(obj.CollisionRectangle.Location.X, obj.CollisionRectangle.Location.Y + 10, obj.CollisionRectangle.Size.X, obj.CollisionRectangle.Size.Y - 10); 
                             if(heroCollisionRectangle.Intersects(rectangleToCeck))
                             {
                                 collidesX = true;
-                            }                            
+                            }
                         }
                     }
                 }
@@ -140,32 +135,5 @@ namespace GameDevelopement_Game.Movement
                 hero.isdDead = true;
             }
         }
-        /*
-        private bool Jump(float charPosY, float jumpHeight)
-        {
-            //Temporary vars
-            float charStartPosY = charPosY;
-            float jumpStartHeight = jumpHeight;
-            bool goDown = false;
-
-            //Check if character is not going down, let the man jump!
-            while (!goDown)
-            {
-                for (float i = 0; i <= jumpStartHeight; i++)
-                {
-                    charPosY -= jumpHeight;
-                    jumpHeight--;
-                    if (i >= jumpStartHeight)
-                    {
-                        //If the man finished jumping, set goDown true
-                        goDown = true;
-                        jumpHeight = jumpStartHeight;
-                    }
-                }
-            }
-
-            return goDown;
-        }*/
-    }
-    
+    }    
 }
