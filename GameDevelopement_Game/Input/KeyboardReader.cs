@@ -34,15 +34,29 @@ namespace GameDevelopement_Game.Input
             }
             if (state.IsKeyDown(Keys.Left))
             {
-                isStandingStill = false;
-                direction.X -= 1;
-                this.lookDirection = -1;
+                if(!state.IsKeyDown(Keys.Right))
+                {
+                    isStandingStill = false;
+                    direction.X -= 1;
+                    this.lookDirection = -1;
+                }
+                else
+                {
+                    isStandingStill = true;
+                }
             }
             if (state.IsKeyDown(Keys.Right))
             {
-                isStandingStill = false;
-                direction.X += 1;
-                this.lookDirection = 1;
+                if(!state.IsKeyDown(Keys.Left))
+                {
+                    isStandingStill = false;
+                    direction.X += 1;
+                    this.lookDirection = 1;
+                }
+                else
+                {
+                    isStandingStill = true;
+                }
             }
             if (state.IsKeyDown(Keys.Up))
             {
