@@ -1,4 +1,5 @@
-﻿using GameDevelopement_Game.Input;
+﻿using GameDevelopement_Game.enums;
+using GameDevelopement_Game.Input;
 using GameDevelopement_Game.interfaces;
 using Microsoft.Xna.Framework;
 using SharpDX.Direct2D1.Effects;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,6 +32,27 @@ namespace GameDevelopement_Game.Movement
             toekomstigePositie = hero.Positie + hero.Direction;
             hero.invincibilityTimer = invincibilityTimer;
 
+
+            #region hero gamestate to integer to check with gameobjects conversion
+            int IntegerToCheckWithGameObjects;
+            switch (hero._GameState)
+            {
+                case GameState.CurrentGameState.level_1:
+                    IntegerToCheckWithGameObjects = 1;
+                    break;
+                case GameState.CurrentGameState.level_2:
+                    IntegerToCheckWithGameObjects = 2;
+                    break;
+                case GameState.CurrentGameState.level_3:
+                    IntegerToCheckWithGameObjects = 4;
+                    break;
+                default:
+                    IntegerToCheckWithGameObjects = -1;
+                    break;
+            }
+
+            #endregion
+
             #region collision detection
             bool hashit = false;
             Rectangle heroCollisionRectangle;
@@ -38,7 +61,7 @@ namespace GameDevelopement_Game.Movement
             bool collidesX = false;
             foreach (IGameObject obj in objects)
             {
-                if (obj.lvl == (int)hero._GameState && obj.isdDead == false)
+                if (obj.lvl == IntegerToCheckWithGameObjects && obj.isdDead == false)
                 {
                     if (heroCollisionRectangle.Intersects(obj.CollisionRectangle))
                     {
@@ -74,7 +97,7 @@ namespace GameDevelopement_Game.Movement
             bool collidesY = false;
             foreach (IGameObject obj in objects)
             {
-                if (obj.lvl == (int)hero._GameState && obj.isdDead == false)
+                if (obj.lvl == IntegerToCheckWithGameObjects && obj.isdDead == false)
                 {
                     if (heroCollisionRectangle.Intersects(obj.CollisionRectangle))
                     {
