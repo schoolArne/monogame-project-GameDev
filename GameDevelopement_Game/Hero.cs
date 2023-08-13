@@ -109,6 +109,27 @@ namespace GameDevelopement_Game
         private Vector2 coinbarPos = new Vector2(1000, 0);
         private Rectangle coinbarSize;
 
+        //score
+        private int score;
+        public int Score
+        {
+            get { return score; }
+            set { score = value; }
+        }
+
+        public int[] getScoreAsArrayOfInts()
+        {
+            string scoreString = score.ToString();
+            int[] scoreArray = new int[scoreString.Length];
+
+            for (int i = 0; i < scoreString.Length; i++)
+            {
+                scoreArray[i] = int.Parse(scoreString[i].ToString());
+            }
+
+            return scoreArray;
+        }
+
         //collision
         private List<IGameObject> otherObjList = new List<IGameObject>();
 

@@ -2,6 +2,7 @@
 using GameDevelopement_Game.enums;
 using GameDevelopement_Game.Input;
 using GameDevelopement_Game.interfaces;
+using GameDevelopement_Game.rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -24,6 +25,7 @@ namespace GameDevelopement_Game
         private Texture2D gameOver;
         private Texture2D finished;
         private GameState.CurrentGameState gameState = GameState.CurrentGameState.main_menu;
+        private ScoreRenderer scoreRenderer = new ScoreRenderer();
         //hero
         Hero Hero;
         //andere gameobjects
@@ -49,7 +51,18 @@ namespace GameDevelopement_Game
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            #region score renderer
+            scoreRenderer.char0 = Content.Load<Texture2D>("0");
+            scoreRenderer.char1 = Content.Load<Texture2D>("1");
+            scoreRenderer.char2 = Content.Load<Texture2D>("2");
+            scoreRenderer.char3 = Content.Load<Texture2D>("3");
+            scoreRenderer.char4 = Content.Load<Texture2D>("4");
+            scoreRenderer.char5 = Content.Load<Texture2D>("5");
+            scoreRenderer.char6 = Content.Load<Texture2D>("6");
+            scoreRenderer.char7 = Content.Load<Texture2D>("7");
+            scoreRenderer.char8 = Content.Load<Texture2D>("8");
+            scoreRenderer.char9 = Content.Load<Texture2D>("9");
+            #endregion
             InitializeGameObjects();
             background = Content.Load<Texture2D>("background");
             startScherm = Content.Load<Texture2D>("startscherm");
