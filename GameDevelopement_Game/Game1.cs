@@ -234,6 +234,7 @@ namespace GameDevelopement_Game
             }
             if(Hero.levelCompleted == true && gameState == GameState.CurrentGameState.level_1)
             {
+                Hero.Score = Hero.Score + 1000;
                 Hero.isdDead = false;
                 Hero.levelCompleted = false;
                 Hero.coinCount = 0;
@@ -264,6 +265,7 @@ namespace GameDevelopement_Game
             }
             if (Hero.levelCompleted == true && gameState == GameState.CurrentGameState.level_2)
             {
+                Hero.Score = Hero.Score + 1000;
                 Hero.isdDead = false;
                 Hero.levelCompleted = false;
                 Hero.coinCount = 0;
@@ -294,6 +296,7 @@ namespace GameDevelopement_Game
             }
             if (Hero.levelCompleted == true && gameState == GameState.CurrentGameState.level_3)
             {
+                Hero.Score = Hero.Score + 1000;
                 Hero.isdDead = false;
                 Hero.levelCompleted = false;
                 Hero.Positie = new Vector2(500, 0);
@@ -355,10 +358,12 @@ namespace GameDevelopement_Game
             if(gameState == GameState.CurrentGameState.gameover)
             {
                 _spriteBatch.Draw(gameOver, new Vector2(0, 0), Color.White);
+                scoreRenderer.renderScore(_spriteBatch, 900, Hero.getScoreAsArrayOfInts());
             }
             if(gameState == GameState.CurrentGameState.finished)
             {
                 _spriteBatch.Draw(finished, new Vector2(0, 0), Color.White);
+                scoreRenderer.renderScore(_spriteBatch, 900, Hero.getScoreAsArrayOfInts());
             }
 
             _spriteBatch.End();
