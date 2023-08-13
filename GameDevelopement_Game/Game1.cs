@@ -26,6 +26,9 @@ namespace GameDevelopement_Game
         private Texture2D finished;
         private GameState.CurrentGameState gameState = GameState.CurrentGameState.main_menu;
         private ScoreRenderer scoreRenderer = new ScoreRenderer();
+        //pause functionality
+        private KeyboardState prevKeyboardState;
+        private bool isPaused = false;
         //hero
         Hero Hero;
         //andere gameobjects
@@ -206,103 +209,120 @@ namespace GameDevelopement_Game
             {
                 Exit();
             }
+            if (Keyboard.GetState().IsKeyDown(Keys.P) && Keyboard.GetState() != prevKeyboardState)
+            {
+                isPaused = !isPaused;
+            }
+            prevKeyboardState = Keyboard.GetState();
             //in main menu
             if (gameState == GameState.CurrentGameState.main_menu && Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
                 gameState = GameState.CurrentGameState.level_1;
                 Hero._GameState = GameState.CurrentGameState.level_1;
             }
-            //in lvl 1
-            if (gameState == GameState.CurrentGameState.level_1)
+            //lvl 1
+            if(!isPaused)
             {
-                Hero.Update(gameTime);               
-                foreach (var obj in GameObjectsList)
+                //in lvl 1
+                if (gameState == GameState.CurrentGameState.level_1)
                 {
-                    if(obj.lvl == 1 || obj.lvl == 3)
+                    Hero.Update(gameTime);
+                    foreach (var obj in GameObjectsList)
                     {
-                        if (obj.isFloor == false)
+                        if (obj.lvl == 1 || obj.lvl == 3)
                         {
-                            obj.Update(gameTime);
-                        }
-                    }                    
-                }
-            }
-            //exiting lvl 1
-            if(Hero.coinCount >= 6 && gameState == GameState.CurrentGameState.level_1)
-            {
-                Hero.levelCompleted = true;
-            }
-            if(Hero.levelCompleted == true && gameState == GameState.CurrentGameState.level_1)
-            {
-                Hero.Score = Hero.Score + 1000;
-                Hero.isdDead = false;
-                Hero.levelCompleted = false;
-                Hero.coinCount = 0;
-                Hero.Health = 10;
-                Hero.Positie = new Vector2(0, 0);
-                Hero._GameState = GameState.CurrentGameState.level_2;
-                gameState = GameState.CurrentGameState.level_2;
-            }
-            //in lvl 2
-            if (gameState == GameState.CurrentGameState.level_2)
-            {
-                Hero.Update(gameTime);
-                foreach (var obj in GameObjectsList)
-                {
-                    if (obj.lvl == 2 || obj.lvl == 3)
-                    {
-                        if (obj.isFloor == false)
-                        {
-                            obj.Update(gameTime);
+                            if (obj.isFloor == false)
+                            {
+                                obj.Update(gameTime);
+                            }
                         }
                     }
                 }
-            }
-            //exiting lvl 2
-            if (Hero.coinCount >= 6 && gameState == GameState.CurrentGameState.level_2)
-            {
-                Hero.levelCompleted = true;
-            }
-            if (Hero.levelCompleted == true && gameState == GameState.CurrentGameState.level_2)
-            {
-                Hero.Score = Hero.Score + 1000;
-                Hero.isdDead = false;
-                Hero.levelCompleted = false;
-                Hero.coinCount = 0;
-                Hero.Health = 10;
-                Hero.Positie = new Vector2(1800, 0);
-                Hero._GameState = GameState.CurrentGameState.level_3;
-                gameState = GameState.CurrentGameState.level_3;
-            }
-            //in lvl 3
-            if (gameState == GameState.CurrentGameState.level_3)
-            {
-                Hero.Update(gameTime);
-                foreach (var obj in GameObjectsList)
+                //exiting lvl 1
+                if (Hero.coinCount >= 6 && gameState == GameState.CurrentGameState.level_1)
                 {
-                    if(obj.lvl == 4 || obj.lvl == 3)
+                    Hero.levelCompleted = true;
+                }
+                if (Hero.levelCompleted == true && gameState == GameState.CurrentGameState.level_1)
+                {
+                    Hero.Score = Hero.Score + 1000;
+                    Hero.isdDead = false;
+                    Hero.levelCompleted = false;
+                    Hero.coinCount = 0;
+                    Hero.Health = 10;
+                    Hero.Positie = new Vector2(0, 0);
+                    Hero._GameState = GameState.CurrentGameState.level_2;
+                    gameState = GameState.CurrentGameState.level_2;
+                }
+            }
+            //lvl 2
+            if(!isPaused)
+            {
+                //in lvl 2
+                if (gameState == GameState.CurrentGameState.level_2)
+                {
+                    Hero.Update(gameTime);
+                    foreach (var obj in GameObjectsList)
                     {
-                        if(obj.isFloor == false)
+                        if (obj.lvl == 2 || obj.lvl == 3)
                         {
-                            obj.Update(gameTime);
+                            if (obj.isFloor == false)
+                            {
+                                obj.Update(gameTime);
+                            }
                         }
                     }
                 }
+                //exiting lvl 2
+                if (Hero.coinCount >= 6 && gameState == GameState.CurrentGameState.level_2)
+                {
+                    Hero.levelCompleted = true;
+                }
+                if (Hero.levelCompleted == true && gameState == GameState.CurrentGameState.level_2)
+                {
+                    Hero.Score = Hero.Score + 1000;
+                    Hero.isdDead = false;
+                    Hero.levelCompleted = false;
+                    Hero.coinCount = 0;
+                    Hero.Health = 10;
+                    Hero.Positie = new Vector2(1800, 0);
+                    Hero._GameState = GameState.CurrentGameState.level_3;
+                    gameState = GameState.CurrentGameState.level_3;
+                }
             }
-            //exiting lvl 3
-            if(Hero.coinCount >= 6 && gameState == GameState.CurrentGameState.level_3)
+            //lvl 3
+            if(!isPaused)
             {
-                Hero.levelCompleted = true;
-            }
-            if (Hero.levelCompleted == true && gameState == GameState.CurrentGameState.level_3)
-            {
-                Hero.Score = Hero.Score + 1000;
-                Hero.isdDead = false;
-                Hero.levelCompleted = false;
-                Hero.Positie = new Vector2(500, 0);
-                gameState = GameState.CurrentGameState.finished;
-                Hero._GameState = GameState.CurrentGameState.finished;
-            }
+                //in lvl 3
+                if (gameState == GameState.CurrentGameState.level_3)
+                {
+                    Hero.Update(gameTime);
+                    foreach (var obj in GameObjectsList)
+                    {
+                        if (obj.lvl == 4 || obj.lvl == 3)
+                        {
+                            if (obj.isFloor == false)
+                            {
+                                obj.Update(gameTime);
+                            }
+                        }
+                    }
+                }
+                //exiting lvl 3
+                if (Hero.coinCount >= 6 && gameState == GameState.CurrentGameState.level_3)
+                {
+                    Hero.levelCompleted = true;
+                }
+                if (Hero.levelCompleted == true && gameState == GameState.CurrentGameState.level_3)
+                {
+                    Hero.Score = Hero.Score + 1000;
+                    Hero.isdDead = false;
+                    Hero.levelCompleted = false;
+                    Hero.Positie = new Vector2(500, 0);
+                    gameState = GameState.CurrentGameState.finished;
+                    Hero._GameState = GameState.CurrentGameState.finished;
+                }
+            }            
             //death
             if (Hero.isdDead == true && gameState == GameState.CurrentGameState.level_1 || Hero.isdDead && gameState == GameState.CurrentGameState.level_2 || Hero.isdDead && gameState == GameState.CurrentGameState.level_3)
             {
