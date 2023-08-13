@@ -71,8 +71,6 @@ namespace GameDevelopement_Game
             Hero = new Hero(Content.Load<Texture2D>("Fox_Sprite_Sheet_Running_4x"),Content.Load<Texture2D>("Fox_Sprite_Sheet_Running_4x_reversed"), Content.Load<Texture2D>("Fox_Sprite_Sheet_Standing_Still_4x"), Content.Load<Texture2D>("Fox_Sprite_Sheet_Stinding_Still_4x_Reversed"), Content.Load<Texture2D>("Red_full"), Content.Load<Texture2D>("Yellow_full") ,new Vector2(0, 0), new KeyboardReader(1, true, false), GameObjectsList,gameState, 3); //lvl 3 ==> in beide lvls
             #endregion
             #region lvl1
-            //for faster level developement (extra endgate to go to next lvl faster)
-            GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(100, 100), 1));
             //floors
             Floor floor1 = new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 250), 1680, 100, 1);
             Floor floor2 = new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(240, 500), 1680, 100, 1);
@@ -103,8 +101,6 @@ namespace GameDevelopement_Game
             GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1500, 1010), 1));
             #endregion
             #region lvl2
-            //for faster level developement (extra endgate to go to next lvl faster)
-            GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(100, 100), 2));
             //floors
             Floor floor4 = new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 250), 840, 100, 2);
             Floor floor5 = new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(1080, 250), 840, 100, 2);
