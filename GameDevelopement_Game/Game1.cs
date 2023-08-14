@@ -25,7 +25,7 @@ namespace GameDevelopement_Game
         private Texture2D gameOver;
         private Texture2D finished;
         private GameState.CurrentGameState gameState = GameState.CurrentGameState.main_menu;
-        private ScoreRenderer scoreRenderer = new ScoreRenderer();
+        private UtilityRenderer utilityRenderer = new UtilityRenderer();
         //pause functionality
         private KeyboardState prevKeyboardState;
         private bool isPaused = false;
@@ -55,16 +55,16 @@ namespace GameDevelopement_Game
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
             #region score renderer
-            scoreRenderer.char0 = Content.Load<Texture2D>("0");
-            scoreRenderer.char1 = Content.Load<Texture2D>("1");
-            scoreRenderer.char2 = Content.Load<Texture2D>("2");
-            scoreRenderer.char3 = Content.Load<Texture2D>("3");
-            scoreRenderer.char4 = Content.Load<Texture2D>("4");
-            scoreRenderer.char5 = Content.Load<Texture2D>("5");
-            scoreRenderer.char6 = Content.Load<Texture2D>("6");
-            scoreRenderer.char7 = Content.Load<Texture2D>("7");
-            scoreRenderer.char8 = Content.Load<Texture2D>("8");
-            scoreRenderer.char9 = Content.Load<Texture2D>("9");
+            utilityRenderer.char0 = Content.Load<Texture2D>("0");
+            utilityRenderer.char1 = Content.Load<Texture2D>("1");
+            utilityRenderer.char2 = Content.Load<Texture2D>("2");
+            utilityRenderer.char3 = Content.Load<Texture2D>("3");
+            utilityRenderer.char4 = Content.Load<Texture2D>("4");
+            utilityRenderer.char5 = Content.Load<Texture2D>("5");
+            utilityRenderer.char6 = Content.Load<Texture2D>("6");
+            utilityRenderer.char7 = Content.Load<Texture2D>("7");
+            utilityRenderer.char8 = Content.Load<Texture2D>("8");
+            utilityRenderer.char9 = Content.Load<Texture2D>("9");
             #endregion
             InitializeGameObjects();
             background = Content.Load<Texture2D>("background");
@@ -378,12 +378,12 @@ namespace GameDevelopement_Game
             if(gameState == GameState.CurrentGameState.gameover)
             {
                 _spriteBatch.Draw(gameOver, new Vector2(0, 0), Color.White);
-                scoreRenderer.renderScore(_spriteBatch, 900, Hero.getScoreAsArrayOfInts());
+                utilityRenderer.renderScore(_spriteBatch, 900, Hero.getScoreAsArrayOfInts());
             }
             if(gameState == GameState.CurrentGameState.finished)
             {
                 _spriteBatch.Draw(finished, new Vector2(0, 0), Color.White);
-                scoreRenderer.renderScore(_spriteBatch, 900, Hero.getScoreAsArrayOfInts());
+                utilityRenderer.renderScore(_spriteBatch, 900, Hero.getScoreAsArrayOfInts());
             }
 
             _spriteBatch.End();

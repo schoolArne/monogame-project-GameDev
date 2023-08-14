@@ -9,7 +9,7 @@ using System.Windows.Forms;
 
 namespace GameDevelopement_Game.rendering
 {
-    public class ScoreRenderer
+    public class UtilityRenderer
     {
         public Texture2D char0 { get; set; }
         public Texture2D char1 { get; set; }
@@ -22,7 +22,7 @@ namespace GameDevelopement_Game.rendering
         public Texture2D char8 { get; set; }
         public Texture2D char9 { get; set; }
 
-        public ScoreRenderer()
+        public UtilityRenderer()
         {
             
         }
