@@ -22,9 +22,18 @@ namespace GameDevelopement_Game.rendering
         public Texture2D char8 { get; set; }
         public Texture2D char9 { get; set; }
 
+        public Texture2D pauseIcon { get; set; }
+
         public UtilityRenderer()
         {
             
+        }
+        public void renderPauseIcon(SpriteBatch _spriteBatch)
+        {
+            Rectangle sourceRectangle = new Rectangle(0, 0, 100, 100);
+            int x = (1920 - 100) - 10;
+            int y = 10;
+            _spriteBatch.Draw(pauseIcon, new Vector2(x, y), sourceRectangle, Color.White);
         }
         public void renderScore(SpriteBatch _spriteBatch, int posY, int[] score)
         {

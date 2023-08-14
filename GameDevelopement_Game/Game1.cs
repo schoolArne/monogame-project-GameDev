@@ -65,6 +65,7 @@ namespace GameDevelopement_Game
             utilityRenderer.char7 = Content.Load<Texture2D>("7");
             utilityRenderer.char8 = Content.Load<Texture2D>("8");
             utilityRenderer.char9 = Content.Load<Texture2D>("9");
+            utilityRenderer.pauseIcon = Content.Load<Texture2D>("pause");
             #endregion
             InitializeGameObjects();
             background = Content.Load<Texture2D>("background");
@@ -385,7 +386,10 @@ namespace GameDevelopement_Game
                 _spriteBatch.Draw(finished, new Vector2(0, 0), Color.White);
                 utilityRenderer.renderScore(_spriteBatch, 900, Hero.getScoreAsArrayOfInts());
             }
-
+            if (isPaused)
+            {
+                utilityRenderer.renderPauseIcon(_spriteBatch);
+            }
             _spriteBatch.End();
 
             base.Draw(gameTime);
