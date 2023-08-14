@@ -54,7 +54,7 @@ namespace GameDevelopement_Game
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            #region score renderer
+            #region utility renderer
             utilityRenderer.char0 = Content.Load<Texture2D>("0");
             utilityRenderer.char1 = Content.Load<Texture2D>("1");
             utilityRenderer.char2 = Content.Load<Texture2D>("2");
