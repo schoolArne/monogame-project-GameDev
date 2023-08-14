@@ -37,6 +37,7 @@ namespace GameDevelopement_Game.rendering
         }
         public void renderScore(SpriteBatch _spriteBatch, int posY, int[] score)
         {
+            bool isScoreMaxScore = (score[0] == 4 && score[1] == 8 && score[2] == 0 && score[3] == 0);
             Rectangle sourceRectangle = new Rectangle(0, 0, 27, 42);
             int y = posY;
             int lengthOfWholeScore = score.Length * 27;
@@ -45,7 +46,14 @@ namespace GameDevelopement_Game.rendering
                 int startX = (1920 - lengthOfWholeScore) / 2;
                 foreach(int i in score)
                 {
-                    _spriteBatch.Draw(convertIntToTexture(i), new Vector2(startX, y), sourceRectangle, Color.White);
+                    if(isScoreMaxScore)
+                    {
+                        _spriteBatch.Draw(convertIntToTexture(i), new Vector2(startX, y), sourceRectangle, Color.Green);
+                    }
+                    else
+                    {
+                        _spriteBatch.Draw(convertIntToTexture(i), new Vector2(startX, y), sourceRectangle, Color.White);
+                    }
                     startX += 27;
                 }
             }
