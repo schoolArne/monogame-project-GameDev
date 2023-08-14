@@ -37,7 +37,7 @@ namespace GameDevelopement_Game.rendering
         }
         public void renderScore(SpriteBatch _spriteBatch, int posY, int[] score)
         {
-            bool isScoreMaxScore = (score[0] == 4 && score[1] == 8 && score[2] == 0 && score[3] == 0);
+            bool isScoreMaxScore = isScoreHighestPossibleScore(score);
             Rectangle sourceRectangle = new Rectangle(0, 0, 27, 42);
             int y = posY;
             int lengthOfWholeScore = score.Length * 27;
@@ -98,6 +98,24 @@ namespace GameDevelopement_Game.rendering
                     break;
             }
             return textureToDraw;
+        }
+        private bool isScoreHighestPossibleScore(int[] score)
+        {
+            int highestPossibleScore = 4800; //3 * 1000 + 18 * 100
+            string scoreAsString = "";
+            foreach(int scoreInt in score)
+            {
+                scoreAsString += scoreInt.ToString();
+            }
+            int scoreAsInt = Int32.Parse(scoreAsString);
+            if(scoreAsInt >= highestPossibleScore)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
