@@ -69,6 +69,10 @@ namespace GameDevelopement_Game.Input
                     direction.Y -= 1;
                 }
             }
+            if (state.IsKeyDown(Keys.Down))
+            {
+                direction.Y += 1;
+            }
             if (jumpTimer >= 30)
             {
                 direction.Y += 1;
