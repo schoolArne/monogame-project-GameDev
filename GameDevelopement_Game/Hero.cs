@@ -196,5 +196,10 @@ namespace GameDevelopement_Game
         {
             RenderHero.DrawHero(_spriteBatch, inputreader, heroTextureRunning, heroTextureRunningReversed, heroTextureStandingStill, heroTextureStandingStillReversed, healthBar, coinBar, positie, animatie, invincibilityTimer, health, healthbarPos, coinCount, coinbarPos);
         }
+
+        public void playInteractSound()
+        {
+            //
+        }
     }
 }

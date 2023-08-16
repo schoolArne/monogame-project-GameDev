@@ -21,5 +21,7 @@ namespace GameDevelopement_Game.interfaces
         void Update(GameTime gametime);
 
         void Draw(SpriteBatch _spriteBatch);
+
+        void playInteractSound();
     }
 }

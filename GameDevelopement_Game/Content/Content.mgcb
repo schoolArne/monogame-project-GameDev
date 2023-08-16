@@ -331,6 +331,12 @@
 /processorParam:TextureFormat=Color
 /build:pause.png
 
+#begin ProjectsU012_coins_1.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:ProjectsU012_coins_1.mp3
+
 #begin Red_full.png
 /importer:TextureImporter
 /processor:TextureProcessor

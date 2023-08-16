@@ -29,5 +29,10 @@ namespace GameDevelopement_Game.enemies
                 return new Rectangle((int)positie.X, (int)positie.Y, 60, 63);
             }
         }
+
+        public void playInteractSound()
+        {
+            //
+        }
     }
 }

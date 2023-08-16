@@ -1,6 +1,8 @@
 ﻿using GameDevelopement_Game.interfaces;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using SharpDX.Direct3D9;
 using System;
 using System.Collections.Generic;
@@ -21,6 +23,7 @@ namespace GameDevelopement_Game
         public int lvl { get; set; }
         private Texture2D coinTexture;
         private Vector2 coinPositie;
+        private SoundEffect collectSound;
         public Rectangle CollisionRectangle
         {
             get
@@ -28,11 +31,12 @@ namespace GameDevelopement_Game
                 return new Rectangle((int)coinPositie.X, (int)coinPositie.Y, 30, 30);
             }
         }
-        public Coin(Texture2D t, Vector2 p, int _lvl)
+        public Coin(Texture2D t, Vector2 p, int _lvl, SoundEffect _collectSound)
         {
             coinTexture = t;
             coinPositie = p;
             lvl = _lvl;
+            this.collectSound = _collectSound;
         }
         public void Update(GameTime gametime)
         {
@@ -44,6 +48,10 @@ namespace GameDevelopement_Game
             {
                 _spriteBatch.Draw(coinTexture, coinPositie, new Rectangle(0, 0, 30, 30), Color.White);
             }            
+        }
+        public void playInteractSound()
+        {
+            collectSound.Play();
         }
     }
 }

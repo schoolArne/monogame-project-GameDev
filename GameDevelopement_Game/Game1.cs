@@ -14,6 +14,7 @@ using System.Drawing;
 using System.Drawing.Text;
 using Color = Microsoft.Xna.Framework.Color;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 namespace GameDevelopement_Game
 {
@@ -37,8 +38,10 @@ namespace GameDevelopement_Game
         public List<Floor> floorListlvl1 = new List<Floor>();
         public List<Floor> floorListlvl2 = new List<Floor>();
         public List<Floor> floorListlvl3 = new List<Floor>();
-        //background music
+        //music
         Song backgroundSong;
+        //sounds
+        SoundEffect coinCollectSound;
 
         public Game1()
         {
@@ -70,11 +73,14 @@ namespace GameDevelopement_Game
             utilityRenderer.char9 = Content.Load<Texture2D>("9");
             utilityRenderer.pauseIcon = Content.Load<Texture2D>("pause");
             #endregion
+            //sounds
+            coinCollectSound = Content.Load<SoundEffect>("ProjectsU012_coins_1");
             InitializeGameObjects();
             background = Content.Load<Texture2D>("background");
             startScherm = Content.Load<Texture2D>("startscherm");
             gameOver = Content.Load<Texture2D>("game_over");
             finished = Content.Load<Texture2D>("success");
+            //music            
             backgroundSong = Content.Load<Song>("josefpres_8_bit_game_loop_003");
             MediaPlayer.Play(backgroundSong);
             MediaPlayer.IsRepeating = true;
@@ -116,12 +122,12 @@ namespace GameDevelopement_Game
             //endgate
             GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(0, 956), 1));
             //coins
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(200, 220), 1));
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1800, 220), 1));
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(800, 470), 1));
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(300, 470), 1));
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1000, 720), 1));
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1500, 1010), 1));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(200, 220), 1, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1800, 220), 1, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(800, 470), 1, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(300, 470), 1, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1000, 720), 1, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1500, 1010), 1, coinCollectSound));
             #endregion
             #region lvl2
             //floors
@@ -153,12 +159,12 @@ namespace GameDevelopement_Game
             //endgate
             GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(1920-52, 956), 2));
             //coins
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(200, 220), 2));
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1800, 220), 2));
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(800, 470), 2));
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(300, 470), 2));
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1700, 720), 2));
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(100, 1010), 2));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(200, 220), 2, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1800, 220), 2, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(800, 470), 2, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(300, 470), 2, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1700, 720), 2, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(100, 1010), 2, coinCollectSound));
             #endregion
             #region lvl3
             //level number 3 is reserved for objects that get rendered in every level so number 4 is used for level 3 here
@@ -200,12 +206,12 @@ namespace GameDevelopement_Game
             //endgate
             GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(1920 - 52, 956), 4));
             //coins
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1500, 50), 4));
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(900, 50), 4));
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(225, 450), 4));
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(945, 450), 4));
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1665, 450), 4));
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(100, 1010), 4));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1500, 50), 4, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(900, 50), 4, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(225, 450), 4, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(945, 450), 4, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1665, 450), 4, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(100, 1010), 4, coinCollectSound));
             #endregion
         }
 

@@ -77,7 +77,8 @@ namespace GameDevelopement_Game.Movement
                         }
                         if (obj.isCoin == true)
                         {
-                            hero.Score = hero.Score + 100;
+                            obj.playInteractSound();
+                            hero.Score = hero.Score + 100;                            
                             obj.isdDead = true;
                             hero.coinCount++;
                         }
@@ -116,6 +117,7 @@ namespace GameDevelopement_Game.Movement
                         }
                         if (obj.isCoin == true)
                         {
+                            obj.playInteractSound();
                             hero.Score = hero.Score + 100;
                             obj.isdDead = true;
                             hero.coinCount++;
