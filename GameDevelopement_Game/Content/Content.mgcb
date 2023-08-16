@@ -313,6 +313,12 @@
 /processorParam:TextureFormat=Color
 /build:gate.png
 
+#begin josefpres_8_bit_game_loop_003.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:josefpres_8_bit_game_loop_003.mp3
+
 #begin pause.png
 /importer:TextureImporter
 /processor:TextureProcessor

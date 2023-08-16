@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
 using Color = Microsoft.Xna.Framework.Color;
+using Microsoft.Xna.Framework.Media;
 
 namespace GameDevelopement_Game
 {
@@ -36,6 +37,8 @@ namespace GameDevelopement_Game
         public List<Floor> floorListlvl1 = new List<Floor>();
         public List<Floor> floorListlvl2 = new List<Floor>();
         public List<Floor> floorListlvl3 = new List<Floor>();
+        //background music
+        Song backgroundSong;
 
         public Game1()
         {
@@ -72,6 +75,9 @@ namespace GameDevelopement_Game
             startScherm = Content.Load<Texture2D>("startscherm");
             gameOver = Content.Load<Texture2D>("game_over");
             finished = Content.Load<Texture2D>("success");
+            backgroundSong = Content.Load<Song>("josefpres_8_bit_game_loop_003");
+            MediaPlayer.Play(backgroundSong);
+            MediaPlayer.IsRepeating = true;
         }
 
         private void InitializeGameObjects()
