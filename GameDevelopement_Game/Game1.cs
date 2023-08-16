@@ -44,6 +44,8 @@ namespace GameDevelopement_Game
         SoundEffect coinCollectSound;
         SoundEffect enemyDamageSound1;
         SoundEffect ghostDamageSound;
+        SoundEffect levelCompleted;
+        SoundEffect gameCompleted;
 
         public Game1()
         {
@@ -79,6 +81,8 @@ namespace GameDevelopement_Game
             coinCollectSound = Content.Load<SoundEffect>("ProjectsU012_coins_1");
             enemyDamageSound1 = Content.Load<SoundEffect>("inspectorj_explosion-8-bit-01");
             ghostDamageSound = Content.Load<SoundEffect>("ghost_damage");
+            levelCompleted = Content.Load<SoundEffect>("Kenneth_Cooney_Completed");
+            gameCompleted = Content.Load<SoundEffect>("Henryrichard_sfx-clear");
             InitializeGameObjects();
             background = Content.Load<Texture2D>("background");
             startScherm = Content.Load<Texture2D>("startscherm");
@@ -262,6 +266,7 @@ namespace GameDevelopement_Game
                 }
                 if (Hero.levelCompleted == true && gameState == GameState.CurrentGameState.level_1)
                 {
+                    levelCompleted.Play();
                     Hero.Score = Hero.Score + 1000;
                     Hero.isdDead = false;
                     Hero.levelCompleted = false;
@@ -297,6 +302,7 @@ namespace GameDevelopement_Game
                 }
                 if (Hero.levelCompleted == true && gameState == GameState.CurrentGameState.level_2)
                 {
+                    levelCompleted.Play();
                     Hero.Score = Hero.Score + 1000;
                     Hero.isdDead = false;
                     Hero.levelCompleted = false;
@@ -332,6 +338,7 @@ namespace GameDevelopement_Game
                 }
                 if (Hero.levelCompleted == true && gameState == GameState.CurrentGameState.level_3)
                 {
+                    gameCompleted.Play();
                     Hero.Score = Hero.Score + 1000;
                     Hero.isdDead = false;
                     Hero.levelCompleted = false;

@@ -319,6 +319,12 @@
 /processorParam:Quality=Best
 /build:ghost_damage.mp3
 
+#begin Henryrichard_sfx-clear.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Henryrichard_sfx-clear.mp3
+
 #begin inspectorj_explosion-8-bit-01.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
@@ -330,6 +336,12 @@
 /processor:SongProcessor
 /processorParam:Quality=Best
 /build:josefpres_8_bit_game_loop_003.mp3
+
+#begin Kenneth_Cooney_Completed.mp3
+/importer:Mp3Importer
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Kenneth_Cooney_Completed.mp3
 
 #begin pause.png
 /importer:TextureImporter
