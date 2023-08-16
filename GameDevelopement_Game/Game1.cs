@@ -46,6 +46,7 @@ namespace GameDevelopement_Game
         SoundEffect ghostDamageSound;
         SoundEffect levelCompleted;
         SoundEffect gameCompleted;
+        SoundEffect gameOverSoundEffect;
 
         public Game1()
         {
@@ -83,6 +84,7 @@ namespace GameDevelopement_Game
             ghostDamageSound = Content.Load<SoundEffect>("ghost_damage");
             levelCompleted = Content.Load<SoundEffect>("Kenneth_Cooney_Completed");
             gameCompleted = Content.Load<SoundEffect>("Henryrichard_sfx-clear");
+            gameOverSoundEffect = Content.Load<SoundEffect>("ScreamStudio_arcade_game_over");
             InitializeGameObjects();
             background = Content.Load<Texture2D>("background");
             startScherm = Content.Load<Texture2D>("startscherm");
@@ -350,6 +352,7 @@ namespace GameDevelopement_Game
             //death
             if (Hero.isdDead == true && gameState == GameState.CurrentGameState.level_1 || Hero.isdDead && gameState == GameState.CurrentGameState.level_2 || Hero.isdDead && gameState == GameState.CurrentGameState.level_3)
             {
+                gameOverSoundEffect.Play();
                 gameState = GameState.CurrentGameState.gameover;
             }
         }
