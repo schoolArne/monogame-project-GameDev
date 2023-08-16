@@ -1,5 +1,6 @@
 ﻿using GameDevelopement_Game.Animation;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,8 @@ namespace GameDevelopement_Game.enemies
         public bool isGate { get; } = false;
         public bool isCoin { get; } = false;
         public int lvl { get; set; }
+
+        protected SoundEffect interActionSoundEffect;
         
         public Rectangle CollisionRectangle
         {
@@ -32,7 +35,10 @@ namespace GameDevelopement_Game.enemies
 
         public void playInteractSound()
         {
-            //
+            if(interActionSoundEffect != null)
+            {
+                interActionSoundEffect.Play();
+            }
         }
     }
 }

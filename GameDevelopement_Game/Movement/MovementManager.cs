@@ -67,6 +67,7 @@ namespace GameDevelopement_Game.Movement
                     {
                         if (obj.isEnemy == true && invincibilityTimer > 50)
                         {
+                            obj.playInteractSound();
                             hashit = true;
                             hero.Health -= obj.damage;
                             invincibilityTimer = 0;
@@ -107,6 +108,7 @@ namespace GameDevelopement_Game.Movement
                         {
                             if (hashit == false)
                             {
+                                obj.playInteractSound();
                                 hero.Health -= obj.damage;
                                 invincibilityTimer = 0;
                             }
