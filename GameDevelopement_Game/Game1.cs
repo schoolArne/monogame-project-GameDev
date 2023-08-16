@@ -43,6 +43,7 @@ namespace GameDevelopement_Game
         //sounds
         SoundEffect coinCollectSound;
         SoundEffect enemyDamageSound1;
+        SoundEffect ghostDamageSound;
 
         public Game1()
         {
@@ -77,6 +78,7 @@ namespace GameDevelopement_Game
             //sounds
             coinCollectSound = Content.Load<SoundEffect>("ProjectsU012_coins_1");
             enemyDamageSound1 = Content.Load<SoundEffect>("inspectorj_explosion-8-bit-01");
+            ghostDamageSound = Content.Load<SoundEffect>("ghost_damage");
             InitializeGameObjects();
             background = Content.Load<Texture2D>("background");
             startScherm = Content.Load<Texture2D>("startscherm");
@@ -119,8 +121,8 @@ namespace GameDevelopement_Game
             GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(1500, 430), 1, enemyDamageSound1));
             GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(200, 687), 1, enemyDamageSound1));
             GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(1300, 680), 1, enemyDamageSound1));
-            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(800, 900), 1, floorListlvl1));
-            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(1600, 900), 1, floorListlvl1));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(800, 900), 1, floorListlvl1, ghostDamageSound));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(1600, 900), 1, floorListlvl1, ghostDamageSound));
             //endgate
             GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(0, 956), 1));
             //coins
@@ -155,9 +157,9 @@ namespace GameDevelopement_Game
             GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(1300, 430), 2, enemyDamageSound1));
             GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(200, 687), 2, enemyDamageSound1));
             GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(1350, 680), 2, enemyDamageSound1));
-            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(200, 900), 2, floorListlvl2));
-            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(800, 900), 2, floorListlvl2));
-            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(1600, 900), 2, floorListlvl2));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(200, 900), 2, floorListlvl2, ghostDamageSound));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(800, 900), 2, floorListlvl2, ghostDamageSound));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(1600, 900), 2, floorListlvl2, ghostDamageSound));
             //endgate
             GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(1920-52, 956), 2));
             //coins
@@ -201,10 +203,10 @@ namespace GameDevelopement_Game
             GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(390, 687), 4, enemyDamageSound1));
             GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(1120, 687), 4, enemyDamageSound1));
             GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(1220, 687), 4, enemyDamageSound1));
-            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(384, 800), 4, floorListlvl3));
-            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(768, 850), 4, floorListlvl3));
-            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(1152, 900), 4, floorListlvl3));
-            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(1536, 950), 4, floorListlvl3));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(384, 800), 4, floorListlvl3, ghostDamageSound));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(768, 850), 4, floorListlvl3, ghostDamageSound));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(1152, 900), 4, floorListlvl3, ghostDamageSound));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(1536, 950), 4, floorListlvl3, ghostDamageSound));
             //endgate
             GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(1920 - 52, 956), 4));
             //coins

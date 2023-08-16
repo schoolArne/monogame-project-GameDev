@@ -2,6 +2,7 @@
 using GameDevelopement_Game.interfaces;
 using GameDevelopement_Game.rendering;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using SharpDX.MediaFoundation;
 using System;
@@ -19,7 +20,7 @@ namespace GameDevelopement_Game.enemies
         private Vector2 snelheid = new Vector2(3, 3);
         protected List<Floor> floorList;
         private int direction = 1;
-        public Enemy2(Texture2D t, Texture2D tr, Vector2 p, int _lvl, List<Floor> l)
+        public Enemy2(Texture2D t, Texture2D tr, Vector2 p, int _lvl, List<Floor> l, SoundEffect _interactionSoundEffect)
         {
             enemyTexture = t;
             enemyTextureReversed = tr;
@@ -32,6 +33,7 @@ namespace GameDevelopement_Game.enemies
             #endregion
             lvl = _lvl;
             floorList = l;
+            interActionSoundEffect = _interactionSoundEffect;
         }
         public void Update(GameTime gametime)
         {
