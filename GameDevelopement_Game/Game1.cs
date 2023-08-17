@@ -235,6 +235,14 @@ namespace GameDevelopement_Game
             if (Keyboard.GetState().IsKeyDown(Keys.P) && Keyboard.GetState() != prevKeyboardState)
             {
                 isPaused = !isPaused;
+                if (isPaused)
+                {
+                    MediaPlayer.Pause();
+                }
+                else
+                {
+                    MediaPlayer.Resume();
+                }
             }
             prevKeyboardState = Keyboard.GetState();
             //in main menu
