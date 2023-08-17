@@ -48,5 +48,9 @@ namespace GameDevelopement_Game
         {
             _spriteBatch.Draw(floorTexture, floorPositie, deelRectangle, Color.White);
         }
+        public void playInteractSound()
+        {
+            //
+        }
     }
 }

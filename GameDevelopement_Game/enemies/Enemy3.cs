@@ -2,6 +2,7 @@
 using GameDevelopement_Game.interfaces;
 using GameDevelopement_Game.rendering;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace GameDevelopement_Game.enemies
         private int wandered = 0;
         private int speed = 3;
         private int direction = 1;
-        public Enemy3(Texture2D t, Texture2D tr, Vector2 p, int _lvl)
+        public Enemy3(Texture2D t, Texture2D tr, Vector2 p, int _lvl, SoundEffect _interactionSoundEffect)
         {
             enemyTexture = t;
             enemyTextureReversed = tr;
@@ -33,6 +34,7 @@ namespace GameDevelopement_Game.enemies
             animatie.AddAnimationFrame(new AnimationFrame(new Rectangle(420, 0, 69, 70)));
             #endregion
             lvl = _lvl;
+            interActionSoundEffect = _interactionSoundEffect;
         }
         public void Update(GameTime gametime)
         {

@@ -2,6 +2,7 @@
 using GameDevelopement_Game.enums;
 using GameDevelopement_Game.Input;
 using GameDevelopement_Game.interfaces;
+using GameDevelopement_Game.rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -12,6 +13,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
 using Color = Microsoft.Xna.Framework.Color;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 namespace GameDevelopement_Game
 {
@@ -24,12 +27,26 @@ namespace GameDevelopement_Game
         private Texture2D gameOver;
         private Texture2D finished;
         private GameState.CurrentGameState gameState = GameState.CurrentGameState.main_menu;
+        private UtilityRenderer utilityRenderer = new UtilityRenderer();
+        //pause functionality
+        private KeyboardState prevKeyboardState;
+        private bool isPaused = false;
         //hero
         Hero Hero;
         //andere gameobjects
         public List<IGameObject> GameObjectsList = new List<IGameObject>();
         public List<Floor> floorListlvl1 = new List<Floor>();
         public List<Floor> floorListlvl2 = new List<Floor>();
+        public List<Floor> floorListlvl3 = new List<Floor>();
+        //music
+        Song backgroundSong;
+        //sounds
+        SoundEffect coinCollectSound;
+        SoundEffect enemyDamageSound1;
+        SoundEffect ghostDamageSound;
+        SoundEffect levelCompleted;
+        SoundEffect gameCompleted;
+        SoundEffect gameOverSoundEffect;
 
         public Game1()
         {
@@ -48,12 +65,35 @@ namespace GameDevelopement_Game
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            #region utility renderer
+            utilityRenderer.char0 = Content.Load<Texture2D>("0");
+            utilityRenderer.char1 = Content.Load<Texture2D>("1");
+            utilityRenderer.char2 = Content.Load<Texture2D>("2");
+            utilityRenderer.char3 = Content.Load<Texture2D>("3");
+            utilityRenderer.char4 = Content.Load<Texture2D>("4");
+            utilityRenderer.char5 = Content.Load<Texture2D>("5");
+            utilityRenderer.char6 = Content.Load<Texture2D>("6");
+            utilityRenderer.char7 = Content.Load<Texture2D>("7");
+            utilityRenderer.char8 = Content.Load<Texture2D>("8");
+            utilityRenderer.char9 = Content.Load<Texture2D>("9");
+            utilityRenderer.pauseIcon = Content.Load<Texture2D>("pause");
+            #endregion
+            //sounds
+            coinCollectSound = Content.Load<SoundEffect>("ProjectsU012_coins_1");
+            enemyDamageSound1 = Content.Load<SoundEffect>("inspectorj_explosion-8-bit-01");
+            ghostDamageSound = Content.Load<SoundEffect>("ghost_damage");
+            levelCompleted = Content.Load<SoundEffect>("Kenneth_Cooney_Completed");
+            gameCompleted = Content.Load<SoundEffect>("Henryrichard_sfx-clear");
+            gameOverSoundEffect = Content.Load<SoundEffect>("ScreamStudio_arcade_game_over");
             InitializeGameObjects();
             background = Content.Load<Texture2D>("background");
             startScherm = Content.Load<Texture2D>("startscherm");
             gameOver = Content.Load<Texture2D>("game_over");
             finished = Content.Load<Texture2D>("success");
+            //music            
+            backgroundSong = Content.Load<Song>("josefpres_8_bit_game_loop_003");
+            MediaPlayer.Play(backgroundSong);
+            MediaPlayer.IsRepeating = true;
         }
 
         private void InitializeGameObjects()
@@ -64,6 +104,7 @@ namespace GameDevelopement_Game
             GameObjectsList.Add(bottomFloor);
             floorListlvl1.Add(bottomFloor);
             floorListlvl2.Add(bottomFloor);
+            floorListlvl3.Add(bottomFloor);
             #endregion
             #region hero
             Hero = new Hero(Content.Load<Texture2D>("Fox_Sprite_Sheet_Running_4x"),Content.Load<Texture2D>("Fox_Sprite_Sheet_Running_4x_reversed"), Content.Load<Texture2D>("Fox_Sprite_Sheet_Standing_Still_4x"), Content.Load<Texture2D>("Fox_Sprite_Sheet_Stinding_Still_4x_Reversed"), Content.Load<Texture2D>("Red_full"), Content.Load<Texture2D>("Yellow_full") ,new Vector2(0, 0), new KeyboardReader(1, true, false), GameObjectsList,gameState, 3); //lvl 3 ==> in beide lvls
@@ -81,24 +122,22 @@ namespace GameDevelopement_Game
             floorListlvl1.Add(floor3);
             floorListlvl1.Add(floor3);
             //enemies
-            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(900, 187), 1));
-            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(400, 430), 1));
-            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(1500, 430), 1));
-            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(200, 687), 1));
-            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(1300, 680), 1));
-            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(800, 900), 1, floorListlvl1));
-            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(1600, 900), 1, floorListlvl1));
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(900, 187), 1, enemyDamageSound1));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(400, 430), 1, enemyDamageSound1));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(1500, 430), 1, enemyDamageSound1));
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(200, 687), 1, enemyDamageSound1));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(1300, 680), 1, enemyDamageSound1));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(800, 900), 1, floorListlvl1, ghostDamageSound));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(1600, 900), 1, floorListlvl1, ghostDamageSound));
             //endgate
-            GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(0, 956), 1));            
-            /*//test om snel van lvl 1 naar lvl 2 te gaan
-            GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(100, 150), 1));*/
+            GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(0, 956), 1));
             //coins
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(200, 220), 1));
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1800, 220), 1));
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(800, 470), 1));
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(300, 470), 1));
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1000, 720), 1));
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1500, 1010), 1));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(200, 220), 1, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1800, 220), 1, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(800, 470), 1, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(300, 470), 1, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1000, 720), 1, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1500, 1010), 1, coinCollectSound));
             #endregion
             #region lvl2
             //floors
@@ -118,24 +157,71 @@ namespace GameDevelopement_Game
             floorListlvl2.Add(floor7);
             floorListlvl2.Add(floor8);
             //enemies
-            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(400, 187), 2));
-            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(1200, 187), 2));
-            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(600, 430), 2));
-            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(1300, 430), 2));
-            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(200, 687), 2));
-            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(1350, 680), 2));
-            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(200, 900), 2, floorListlvl2));
-            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(800, 900), 2, floorListlvl2));
-            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(1600, 900), 2, floorListlvl2));
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(400, 187), 2, enemyDamageSound1));
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(1200, 187), 2, enemyDamageSound1));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(600, 430), 2, enemyDamageSound1));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(1300, 430), 2, enemyDamageSound1));
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(200, 687), 2, enemyDamageSound1));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(1350, 680), 2, enemyDamageSound1));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(200, 900), 2, floorListlvl2, ghostDamageSound));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(800, 900), 2, floorListlvl2, ghostDamageSound));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(1600, 900), 2, floorListlvl2, ghostDamageSound));
             //endgate
             GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(1920-52, 956), 2));
             //coins
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(200, 220), 2));
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1800, 220), 2));
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(800, 470), 2));
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(300, 470), 2));
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1700, 720), 2));
-            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(100, 1010), 2));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(200, 220), 2, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1800, 220), 2, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(800, 470), 2, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(300, 470), 2, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1700, 720), 2, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(100, 1010), 2, coinCollectSound));
+            #endregion
+            #region lvl3
+            //level number 3 is reserved for objects that get rendered in every level so number 4 is used for level 3 here
+            //floors
+            Floor floor9 = new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(240, 250), 1680, 100, 4);
+            Floor floor10 = new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(0, 500), 480, 100, 4);
+            Floor floor11 = new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(720, 500), 480, 100, 4);
+            Floor floor12 = new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(1440, 500), 480, 100, 4);
+            Floor floor13 = new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(240, 750), 600, 100, 4);
+            Floor floor14 = new Floor(Content.Load<Texture2D>("Floor_Texture"), new Vector2(1080, 750), 600, 100, 4);
+            GameObjectsList.Add(floor9);
+            GameObjectsList.Add(floor10);
+            GameObjectsList.Add(floor11);
+            GameObjectsList.Add(floor12);
+            GameObjectsList.Add(floor13);
+            GameObjectsList.Add(floor14);
+            floorListlvl3.Add(floor9);
+            floorListlvl3.Add(floor10);
+            floorListlvl3.Add(floor11);
+            floorListlvl3.Add(floor12);
+            floorListlvl3.Add(floor13);
+            floorListlvl3.Add(floor14);
+            //enemies
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(600, 187), 4, enemyDamageSound1));
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(1000, 187), 4, enemyDamageSound1));
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(1400, 187), 4, enemyDamageSound1));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(250, 180), 4, enemyDamageSound1));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(60, 430), 4, enemyDamageSound1));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(780, 430), 4, enemyDamageSound1));
+            GameObjectsList.Add(new Enemy3(Content.Load<Texture2D>("enemy_3"), Content.Load<Texture2D>("enemy_3_reversed"), new Vector2(1500, 430), 4, enemyDamageSound1));
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(290, 687), 4, enemyDamageSound1));
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(390, 687), 4, enemyDamageSound1));
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(1120, 687), 4, enemyDamageSound1));
+            GameObjectsList.Add(new Enemy1(Content.Load<Texture2D>("enemy_1"), Content.Load<Texture2D>("enemy_1_reversed"), new Vector2(1220, 687), 4, enemyDamageSound1));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(384, 800), 4, floorListlvl3, ghostDamageSound));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(768, 850), 4, floorListlvl3, ghostDamageSound));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(1152, 900), 4, floorListlvl3, ghostDamageSound));
+            GameObjectsList.Add(new Enemy2(Content.Load<Texture2D>("enemy_2"), Content.Load<Texture2D>("enemy_2_reversed"), new Vector2(1536, 950), 4, floorListlvl3, ghostDamageSound));
+            //endgate
+            GameObjectsList.Add(new Gate(Content.Load<Texture2D>("gate"), new Vector2(1920 - 52, 956), 4));
+            //coins
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1500, 50), 4, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(900, 50), 4, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(225, 450), 4, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(945, 450), 4, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(1665, 450), 4, coinCollectSound));
+            GameObjectsList.Add(new Coin(Content.Load<Texture2D>("coin"), new Vector2(100, 1010), 4, coinCollectSound));
             #endregion
         }
 
@@ -146,73 +232,135 @@ namespace GameDevelopement_Game
             {
                 Exit();
             }
+            if (Keyboard.GetState().IsKeyDown(Keys.P) && Keyboard.GetState() != prevKeyboardState)
+            {
+                isPaused = !isPaused;
+                if (isPaused)
+                {
+                    MediaPlayer.Pause();
+                }
+                else
+                {
+                    MediaPlayer.Resume();
+                }
+            }
+            prevKeyboardState = Keyboard.GetState();
             //in main menu
             if (gameState == GameState.CurrentGameState.main_menu && Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
                 gameState = GameState.CurrentGameState.level_1;
                 Hero._GameState = GameState.CurrentGameState.level_1;
             }
-            //in lvl 1
-            if (gameState == GameState.CurrentGameState.level_1)
+            //lvl 1
+            if(!isPaused)
             {
-                Hero.Update(gameTime);               
-                foreach (var obj in GameObjectsList)
+                //in lvl 1
+                if (gameState == GameState.CurrentGameState.level_1)
                 {
-                    if(obj.lvl == 1 || obj.lvl == 3)
+                    Hero.Update(gameTime);
+                    foreach (var obj in GameObjectsList)
                     {
-                        if (obj.isFloor == false)
+                        if (obj.lvl == 1 || obj.lvl == 3)
                         {
-                            obj.Update(gameTime);
-                        }
-                    }                    
-                }
-            }
-            //exiting lvl 1
-            if(Hero.coinCount >= 6 && gameState == GameState.CurrentGameState.level_1)
-            {
-                Hero.levelCompleted = true;
-            }
-            if(Hero.levelCompleted == true && gameState == GameState.CurrentGameState.level_1)
-            {
-                Hero.isdDead = false;
-                Hero.levelCompleted = false;
-                Hero.coinCount = 0;
-                Hero.Health = 10;
-                Hero.Positie = new Vector2(0, 0);
-                Hero._GameState = GameState.CurrentGameState.level_2;
-                gameState = GameState.CurrentGameState.level_2;
-            }
-            //in lvl 2
-            if (gameState == GameState.CurrentGameState.level_2)
-            {
-                Hero.Update(gameTime);
-                foreach (var obj in GameObjectsList)
-                {
-                    if (obj.lvl == 2 || obj.lvl == 3)
-                    {
-                        if (obj.isFloor == false)
-                        {
-                            obj.Update(gameTime);
+                            if (obj.isFloor == false)
+                            {
+                                obj.Update(gameTime);
+                            }
                         }
                     }
                 }
+                //exiting lvl 1
+                if (Hero.coinCount >= 6 && gameState == GameState.CurrentGameState.level_1)
+                {
+                    Hero.levelCompleted = true;
+                }
+                if (Hero.levelCompleted == true && gameState == GameState.CurrentGameState.level_1)
+                {
+                    levelCompleted.Play();
+                    Hero.Score = Hero.Score + 1000;
+                    Hero.isdDead = false;
+                    Hero.levelCompleted = false;
+                    Hero.coinCount = 0;
+                    Hero.Health = 10;
+                    Hero.Positie = new Vector2(0, 0);
+                    Hero._GameState = GameState.CurrentGameState.level_2;
+                    gameState = GameState.CurrentGameState.level_2;
+                }
             }
-            //exiting lvl 2
-            if (Hero.coinCount >= 6 && gameState == GameState.CurrentGameState.level_2)
+            //lvl 2
+            if(!isPaused)
             {
-                Hero.levelCompleted = true;
+                //in lvl 2
+                if (gameState == GameState.CurrentGameState.level_2)
+                {
+                    Hero.Update(gameTime);
+                    foreach (var obj in GameObjectsList)
+                    {
+                        if (obj.lvl == 2 || obj.lvl == 3)
+                        {
+                            if (obj.isFloor == false)
+                            {
+                                obj.Update(gameTime);
+                            }
+                        }
+                    }
+                }
+                //exiting lvl 2
+                if (Hero.coinCount >= 6 && gameState == GameState.CurrentGameState.level_2)
+                {
+                    Hero.levelCompleted = true;
+                }
+                if (Hero.levelCompleted == true && gameState == GameState.CurrentGameState.level_2)
+                {
+                    levelCompleted.Play();
+                    Hero.Score = Hero.Score + 1000;
+                    Hero.isdDead = false;
+                    Hero.levelCompleted = false;
+                    Hero.coinCount = 0;
+                    Hero.Health = 10;
+                    Hero.Positie = new Vector2(1800, 0);
+                    Hero._GameState = GameState.CurrentGameState.level_3;
+                    gameState = GameState.CurrentGameState.level_3;
+                }
             }
-            if (Hero.levelCompleted == true && gameState == GameState.CurrentGameState.level_2)
+            //lvl 3
+            if(!isPaused)
             {
-                Hero.isdDead = false;
-                Hero.levelCompleted = false;
-                Hero.Positie = new Vector2(500, 0);
-                Hero._GameState = GameState.CurrentGameState.finished;
-                gameState = GameState.CurrentGameState.finished;
-            }
+                //in lvl 3
+                if (gameState == GameState.CurrentGameState.level_3)
+                {
+                    Hero.Update(gameTime);
+                    foreach (var obj in GameObjectsList)
+                    {
+                        if (obj.lvl == 4 || obj.lvl == 3)
+                        {
+                            if (obj.isFloor == false)
+                            {
+                                obj.Update(gameTime);
+                            }
+                        }
+                    }
+                }
+                //exiting lvl 3
+                if (Hero.coinCount >= 6 && gameState == GameState.CurrentGameState.level_3)
+                {
+                    Hero.levelCompleted = true;
+                }
+                if (Hero.levelCompleted == true && gameState == GameState.CurrentGameState.level_3)
+                {
+                    gameCompleted.Play();
+                    Hero.Score = Hero.Score + 1000;
+                    Hero.isdDead = false;
+                    Hero.levelCompleted = false;
+                    Hero.Positie = new Vector2(500, 0);
+                    gameState = GameState.CurrentGameState.finished;
+                    Hero._GameState = GameState.CurrentGameState.finished;
+                }
+            }            
             //death
-            if (Hero.isdDead == true && gameState == GameState.CurrentGameState.level_1 || Hero.isdDead && gameState == GameState.CurrentGameState.level_2)
+            if (Hero.isdDead == true && gameState == GameState.CurrentGameState.level_1 || Hero.isdDead && gameState == GameState.CurrentGameState.level_2 || Hero.isdDead && gameState == GameState.CurrentGameState.level_3)
             {
+                gameOverSoundEffect.Play();
                 gameState = GameState.CurrentGameState.gameover;
             }
         }
@@ -250,15 +398,32 @@ namespace GameDevelopement_Game
                     }                    
                 }
             }
+            if(gameState == GameState.CurrentGameState.level_3)
+            {
+                _spriteBatch.Draw(background, new Vector2(0, 0), Color.White);
+                Hero.Draw(_spriteBatch);
+                foreach (var obj in GameObjectsList)
+                {
+                    if(obj.lvl == 4 || obj.lvl == 3)
+                    {
+                        obj.Draw(_spriteBatch);
+                    }
+                }
+            }
             if(gameState == GameState.CurrentGameState.gameover)
             {
                 _spriteBatch.Draw(gameOver, new Vector2(0, 0), Color.White);
+                utilityRenderer.renderScore(_spriteBatch, 900, Hero.getScoreAsArrayOfInts());
             }
             if(gameState == GameState.CurrentGameState.finished)
             {
                 _spriteBatch.Draw(finished, new Vector2(0, 0), Color.White);
+                utilityRenderer.renderScore(_spriteBatch, 900, Hero.getScoreAsArrayOfInts());
             }
-
+            if (isPaused)
+            {
+                utilityRenderer.renderPauseIcon(_spriteBatch);
+            }
             _spriteBatch.End();
 
             base.Draw(gameTime);

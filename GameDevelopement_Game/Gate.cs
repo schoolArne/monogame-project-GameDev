@@ -42,5 +42,10 @@ namespace GameDevelopement_Game
         {
             _spriteBatch.Draw(gateTexture, Positie, new Rectangle(0, 0, 52, 84), Color.White);
         }
+
+        public void playInteractSound()
+        {
+            //
+        }
     }
 }

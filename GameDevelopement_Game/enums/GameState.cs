@@ -14,7 +14,8 @@ namespace GameDevelopement_Game.enums
             level_1 = 1,
             level_2 = 2,
             gameover = 3,
-            finished = 4
+            finished = 4,
+            level_3 = 5
         }
     }
 }

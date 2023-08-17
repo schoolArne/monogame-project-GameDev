@@ -1,4 +1,5 @@
-﻿using GameDevelopement_Game.Input;
+﻿using GameDevelopement_Game.enums;
+using GameDevelopement_Game.Input;
 using GameDevelopement_Game.interfaces;
 using Microsoft.Xna.Framework;
 using SharpDX.Direct2D1.Effects;
@@ -6,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -30,10 +32,26 @@ namespace GameDevelopement_Game.Movement
             toekomstigePositie = hero.Positie + hero.Direction;
             hero.invincibilityTimer = invincibilityTimer;
 
-            if (inputReader.triesToJump)
+
+            #region hero gamestate to integer to check with gameobjects conversion
+            int IntegerToCheckWithGameObjects;
+            switch (hero._GameState)
             {
-                //Jump(hero.Positie.Y, 20);
+                case GameState.CurrentGameState.level_1:
+                    IntegerToCheckWithGameObjects = 1;
+                    break;
+                case GameState.CurrentGameState.level_2:
+                    IntegerToCheckWithGameObjects = 2;
+                    break;
+                case GameState.CurrentGameState.level_3:
+                    IntegerToCheckWithGameObjects = 4;
+                    break;
+                default:
+                    IntegerToCheckWithGameObjects = -1;
+                    break;
             }
+
+            #endregion
 
             #region collision detection
             bool hashit = false;
@@ -43,12 +61,13 @@ namespace GameDevelopement_Game.Movement
             bool collidesX = false;
             foreach (IGameObject obj in objects)
             {
-                if (obj.lvl == (int)hero._GameState && obj.isdDead == false)
+                if (obj.lvl == IntegerToCheckWithGameObjects && obj.isdDead == false)
                 {
                     if (heroCollisionRectangle.Intersects(obj.CollisionRectangle))
                     {
                         if (obj.isEnemy == true && invincibilityTimer > 50)
                         {
+                            obj.playInteractSound();
                             hashit = true;
                             hero.Health -= obj.damage;
                             invincibilityTimer = 0;
@@ -59,13 +78,18 @@ namespace GameDevelopement_Game.Movement
                         }
                         if (obj.isCoin == true)
                         {
+                            obj.playInteractSound();
+                            hero.Score = hero.Score + 100;                            
                             obj.isdDead = true;
                             hero.coinCount++;
                         }
                         else if (!obj.isEnemy)
                         {
-                            collidesX = true;
-
+                            Rectangle rectangleToCeck = new Rectangle(obj.CollisionRectangle.Location.X, obj.CollisionRectangle.Location.Y + 10, obj.CollisionRectangle.Size.X, obj.CollisionRectangle.Size.Y - 10); 
+                            if(heroCollisionRectangle.Intersects(rectangleToCeck))
+                            {
+                                collidesX = true;
+                            }
                         }
                     }
                 }
@@ -76,7 +100,7 @@ namespace GameDevelopement_Game.Movement
             bool collidesY = false;
             foreach (IGameObject obj in objects)
             {
-                if (obj.lvl == (int)hero._GameState && obj.isdDead == false)
+                if (obj.lvl == IntegerToCheckWithGameObjects && obj.isdDead == false)
                 {
                     if (heroCollisionRectangle.Intersects(obj.CollisionRectangle))
                     {
@@ -84,6 +108,7 @@ namespace GameDevelopement_Game.Movement
                         {
                             if (hashit == false)
                             {
+                                obj.playInteractSound();
                                 hero.Health -= obj.damage;
                                 invincibilityTimer = 0;
                             }
@@ -94,6 +119,8 @@ namespace GameDevelopement_Game.Movement
                         }
                         if (obj.isCoin == true)
                         {
+                            obj.playInteractSound();
+                            hero.Score = hero.Score + 100;
                             obj.isdDead = true;
                             hero.coinCount++;
                         }
@@ -104,7 +131,7 @@ namespace GameDevelopement_Game.Movement
                     }
                 }
             }
-            if (!collidesX) { hero.ChangePosY(toekomstigePositie.Y); }
+            if (!collidesY) { hero.ChangePosY(toekomstigePositie.Y); }
             hashit = false;
             invincibilityTimer++;
             if (invincibilityTimer == 2000000000)
@@ -137,32 +164,5 @@ namespace GameDevelopement_Game.Movement
                 hero.isdDead = true;
             }
         }
-        /*
-        private bool Jump(float charPosY, float jumpHeight)
-        {
-            //Temporary vars
-            float charStartPosY = charPosY;
-            float jumpStartHeight = jumpHeight;
-            bool goDown = false;
-
-            //Check if character is not going down, let the man jump!
-            while (!goDown)
-            {
-                for (float i = 0; i <= jumpStartHeight; i++)
-                {
-                    charPosY -= jumpHeight;
-                    jumpHeight--;
-                    if (i >= jumpStartHeight)
-                    {
-                        //If the man finished jumping, set goDown true
-                        goDown = true;
-                        jumpHeight = jumpStartHeight;
-                    }
-                }
-            }
-
-            return goDown;
-        }*/
-    }
-    
+    }    
 }
